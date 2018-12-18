@@ -7,25 +7,22 @@ use PDOException;
 use Exception;
 
 class DatabaseConnection {
-  //Credentials
-  private $creds = [
-    'host' => '192.168.1.18',
-    'db_name' => 'saw',
-    'db_user' => 'saw',
-    'db_password' => 'saw'
-  ];
-
   //Connection
   public $connection;
 
   //Make connection
   public function connect(){
+    $host = __SQL_CREDS__['host'];
+    $db_name = __SQL_CREDS__['db_name'];
+    $db_user = __SQL_CREDS__['db_user'];
+    $db_password = __SQL_CREDS__['db_password'];
+
     $this->connection = null;
 
-    $db = 'mysql:host=' . $this->creds['host'] . ';dbname=' . $this->creds['db_name'];
+    $db = 'mysql:host=' . $host . ';dbname=' . $db_name;
 
     try {
-      $this->connection = new PDO($db, $this->creds['db_user'], $this->creds['db_password']);
+      $this->connection = new PDO($db, $db_user, $db_password);
     }
     catch(PDOException $exception){
       echo "Connection error: " . $exception->getMessage() . PHP_EOL;
