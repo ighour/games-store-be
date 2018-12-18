@@ -1,9 +1,15 @@
 <?php
 
+namespace App\Config;
+
+use PDO;
+use PDOException;
+use Exception;
+
 class DatabaseConnection {
   //Credentials
   private $creds = [
-    'host' => '10.0.80.104',
+    'host' => '192.168.1.18',
     'db_name' => 'saw',
     'db_user' => 'saw',
     'db_password' => 'saw'
