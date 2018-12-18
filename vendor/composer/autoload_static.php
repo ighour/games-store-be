@@ -22,6 +22,8 @@ class ComposerStaticInita3674ccc69b7bf595698c64ff8c8d6ce
 
     public static $classMap = array (
         'App\\Config\\DatabaseConnection' => __DIR__ . '/../..' . '/app/Config/DatabaseConnection.php',
+        'App\\Model\\DAO' => __DIR__ . '/../..' . '/app/Model/DAO.php',
+        'App\\Model\\User' => __DIR__ . '/../..' . '/app/Model/User.php',
     );
 
     public static function getInitializer(ClassLoader $loader)

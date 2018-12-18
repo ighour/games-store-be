@@ -7,4 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'App\\Config\\DatabaseConnection' => $baseDir . '/app/Config/DatabaseConnection.php',
+    'App\\Model\\DAO' => $baseDir . '/app/Model/DAO.php',
+    'App\\Model\\User' => $baseDir . '/app/Model/User.php',
 );

@@ -3,17 +3,14 @@
 require_once(__DIR__ . '/app/bootstrap.php');
 
 try{
-  $DB = new \App\Config\DatabaseConnection();
-  $conn = $DB->connect();
+  $userDAO = new \App\Model\User();
+  $users = $userDAO->fetchAll();
 }
 catch(Exception $exception){
   die();
 }
 
-$stmt = $conn->query('SELECT * FROM users');
-
-while ($row = $stmt->fetch())
-{
-  echo $row['email'];
-  echo '</br>';
+foreach($users as $user){
+  echo $user['username'];
+  echo "<br/>";
 }
