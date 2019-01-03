@@ -8,6 +8,7 @@ class HomeController {
   public function index(){
     try{
       $userDAO = new User();
+
       $users = $userDAO->fetchAll();
     }
     catch(Exception $exception){
