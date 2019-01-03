@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Model;
+namespace App\DAO;
 
 use Exception;
 use App\Config\DatabaseConnection;
+use PDO;
 
 abstract class DAO {
   protected $connection;
@@ -33,8 +34,8 @@ abstract class DAO {
     return $this;
   }
 
-  protected function baseFetchAll(){
-    return $this->statement->fetchAll();
+  protected function baseFetchAll($Model){
+    return $this->statement->fetchAll(PDO::FETCH_CLASS, $Model);
   }
 
   abstract public function fetchAll();

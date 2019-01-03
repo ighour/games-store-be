@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use \App\Model\User;
+use \App\DAO\User;
 
 class HomeController {
   public function index(){
@@ -15,8 +15,12 @@ class HomeController {
     }
     
     foreach($users as $user){
-      echo $user['username'];
-      echo "<br/>";
+      echo "ID: " . $user->id . "<br/>";
+      echo "Username: " . $user->username . "<br/>";
+      echo "Email: " . $user->email . "<br/>";
+      echo "Password: " . $user->password . "<br/>";
+      echo "Role: " . $user->role . "<br/>";
+      echo "</br>";
     }
   }
 }
