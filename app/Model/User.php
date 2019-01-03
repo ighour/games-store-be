@@ -4,7 +4,7 @@ namespace App\Model;
 
 use Exception;
 
-class User {
+class User extends Model {
   public $id;
   public $username;
   public $email;

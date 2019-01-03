@@ -28,6 +28,11 @@ abstract class DAO {
   protected $statement;
 
   /**
+   * SQL query
+   */
+  protected $query;
+
+  /**
    * Parameters
    */
   protected $params;
@@ -51,8 +56,8 @@ abstract class DAO {
   /**
    * Prepare a statement
    */
-  protected function prepare($statement){
-    $this->statement = $this->connection->prepare($statement);
+  protected function prepare(){
+    $this->statement = $this->connection->prepare($this->query);
 
     return $this;
   }
@@ -67,9 +72,18 @@ abstract class DAO {
   }
 
   /**
+   * Set query
+   */
+  protected function withQuery($query){
+    $this->query = $query;
+
+    return $this;
+  }
+
+  /**
    * Set query params
    */
-  protected function setParams(array $params){
+  protected function withParams(array $params){
     $parsedParams = [];
 
     foreach($params as $key => $value){
@@ -101,10 +115,9 @@ abstract class DAO {
    * Fetch all elements from table
    */
   public function fetchAll(){
-    $query = "SELECT * FROM {$this->table}";
-
     return $this->connect()
-                ->prepare($query)
+                ->withQuery("SELECT * FROM {$this->table}")
+                ->prepare()
                 ->execute()
                 ->fetchRows();
   }
@@ -113,13 +126,22 @@ abstract class DAO {
    * Fetch element from table by id
    */
   public function fetchById($id){
-    $query = "SELECT * FROM {$this->table} WHERE id = :id";
-
-    $this->params = [':id' => $id];
-
     return $this->connect()
-                ->prepare($query)
+                ->withQuery("SELECT * FROM {$this->table} WHERE id = :id")
+                ->prepare()
+                ->withParams([':id' => $id])
                 ->execute()
                 ->fetchRow();
+  }
+
+  /**
+   * Insert element in table
+   */
+  protected function insert(array $params){
+    if(is_null($this->query))
+      throw new Exception("Query is required when using insert.");
+
+    return $this->connect()->prepare()->withParams($params)->execute()->connection->lastInsertId();
+
   }
 }
