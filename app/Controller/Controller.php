@@ -43,6 +43,7 @@ abstract class Controller {
    */
   private $CODES = [
     '200' => "OK",
+    '201' => "Created",
     '400' => "Bad Request",
     '404' => "Not Found"
   ];
@@ -54,6 +55,21 @@ abstract class Controller {
   {
     $this->request = $request;
   }
+
+  /**
+   * Filter request parameters
+   */
+  protected function params($params)
+  {
+    $result = [];
+
+    foreach($params as $param){
+      if(isset($this->request[$param]))
+        $result[$param] = $this->request[$param];
+    }
+
+    return $result;
+  } 
 
   /**
    * Set response http code
@@ -117,6 +133,14 @@ abstract class Controller {
   protected function respondOk($message = null)
   {
     $this->withCode(200)->withMessage($message)->respond();
+  }
+
+  /**
+   * Respond Created (201)
+   */
+  protected function respondCreated($message = null)
+  {
+    $this->withCode(201)->withMessage($message)->respond();
   }
 
   /**
