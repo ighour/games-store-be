@@ -128,6 +128,15 @@ abstract class DAO {
   }
 
   /**
+   * Generate select where query
+   */
+  private function generateSelectWhereQuery(array $params, $where){
+    $this->query = "SELECT * FROM {$this->table} WHERE {$where}";
+
+    return $this->withParams($params);
+  }
+
+  /**
    * Generate insert query
    */
   private function generateInsertQuery(array $params){
@@ -192,6 +201,17 @@ abstract class DAO {
   public function fetchById($id){
     return $this->connect()
                 ->generateSelectQuery(['id' => $id])
+                ->prepare()
+                ->execute()
+                ->fetchRow();
+  }
+
+  /**
+   * Fetch element from table by where
+   */
+  public function fetchByWhere($params, $where){
+    return $this->connect()
+                ->generateSelectWhereQuery($params, $where)
                 ->prepare()
                 ->execute()
                 ->fetchRow();
