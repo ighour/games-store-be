@@ -78,4 +78,34 @@ class UserController extends Controller {
     //Response
     $this->withPayload(['user' => $resource])->respondOk();
   }
+
+  /**
+   * Update an element
+   */
+  public function update()
+  {
+    //Validate
+    $this->validation->update();
+    if($errors = $this->validation->errors())
+      $this->withPayload(['errors' => $errors])->respondBadRequest();
+      
+    //Params
+    $params = $this->params(['username', 'email', 'password', 'role']);
+
+    //Get id
+    $id = $this->request['user_id'];
+
+    //Update
+    $element = $this->DAO->update($params, $id);
+
+    //Not Found
+    if(!$element)
+      $this->respondBadRequest("Nothing to update.");
+
+    //Set resource
+    $resource = $this->resource->element($element);
+
+    //Response
+    $this->withPayload(['user' => $resource])->respondOk();
+  }
 }

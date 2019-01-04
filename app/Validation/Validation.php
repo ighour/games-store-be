@@ -85,10 +85,10 @@ abstract class Validation {
    * Check: Required
    * Don't check anything else if false
    */
-  protected function checkRequired($param, $message)
+  protected function checkRequired($param)
   {
     if(!$this->isNotNull($param)){
-      $this->setError($param, $message);
+      $this->setError($param, "Is required.");
       return false;
     }
 
@@ -98,70 +98,75 @@ abstract class Validation {
   /**
    * Check: String
    */
-  protected function checkString($param, $message)
+  protected function checkString($param)
   {
     if(!is_string($this->request[$param]))
-      $this->setError($param, $message);
+      $this->setError($param, "Need to be string.");
   }
 
   /**
    * Check: Email
    */
-  protected function checkEmail($param, $message)
+  protected function checkEmail($param)
   {
     if(!filter_var($this->request[$param], FILTER_VALIDATE_EMAIL))
-      $this->setError($param, $message);
+      $this->setError($param, "Need to be in email format.");
   }
 
   /**
    * Check: Between
    */
-  protected function checkBetween($param, $message, $min, $max)
+  protected function checkBetween($param, $min, $max)
   {
     if(is_string($this->request[$param])){
       $len = strlen($this->request[$param]);
 
       if($len < $min || $len > $max)
-        $this->setError($param, $message);
+        $this->setError($param, "Need to be between {$min} and {$max} character(s).");
     }
     else{
       if($this->request[$param] < $min || $this->request[$param] > $max)
-        $this->setError($param, $message);
+        $this->setError($param, "Need to be between {$min} and {$max}.");
     }
   }
 
   /**
    * Check: Unique
    */
-  protected function checkUnique($param, $message, $fetch)
+  protected function checkUnique($param, $fetch)
   {
     if($fetch != false){
-      $this->setError($param, $message);
+      $this->setError($param, "Need to be unique.");
     }
   }
 
   /**
    * Check: Confirmed
    */
-  protected function checkConfirmed($param, $message)
+  protected function checkConfirmed($param)
   {
     $confirmed = "{$param}_confirmation";
 
     if(!$this->isNotNull($confirmed))
-      $this->setError($param, $message);
+      $this->setError($param, "Confirmation is wrong.");
   }
 
  /**
    * Check: In
    */
-  protected function checkIn($param, $message, array $valid)
+  protected function checkIn($param, array $valid)
   {
     if(!in_array($this->request[$param], $valid))
-      $this->setError($param, $message);
+      $this->setError($param, "Invalid option.");
   }
 
   /**
    * Validate Create
    */
   abstract public function create();
+
+  /**
+   * Validate Update
+   */
+  abstract public function update();
 }

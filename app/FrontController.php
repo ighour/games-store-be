@@ -25,11 +25,12 @@ class FrontController extends Controller {
    * App Routes
    */
   protected $routes = [
-    ['method' => 'GET',   'route' => '/',                 'controller' => 'HomeController',     'action' => 'index'],
+    ['method' => 'GET',   'route' => '/',                     'controller' => 'HomeController',     'action' => 'index'],
 
-    ['method' => 'GET',   'route' => '/users',            'controller' => 'UserController',     'action' => 'index'],
-    ['method' => 'POST',  'route' => '/users',            'controller' => 'UserController',     'action' => 'create'],
-    ['method' => 'GET',   'route' => '/users/:user_id',   'controller' => 'UserController',     'action' => 'show'],
+    ['method' => 'GET',   'route' => '/users',                'controller' => 'UserController',     'action' => 'index'],
+    ['method' => 'POST',  'route' => '/users',                'controller' => 'UserController',     'action' => 'create'],
+    ['method' => 'GET',   'route' => '/users/:user_id',       'controller' => 'UserController',     'action' => 'show'],
+    ['method' => 'PUT',   'route' => '/users/:user_id/edit',  'controller' => 'UserController',     'action' => 'update'],
   ];
 
   /**
@@ -59,6 +60,10 @@ class FrontController extends Controller {
 
       //Generate route array
       $routePath = explode("/", $route['route']);
+
+      //Request and route not same length
+      if(sizeof($urlPath) != sizeOf($routePath))
+        continue;
 
       //Check route
       for($j = 0; $j < sizeof($urlPath); $j++){
@@ -97,7 +102,7 @@ class FrontController extends Controller {
         continue;
 
       //Set params
-      $params = array_merge($_REQUEST, $pathParams);
+      $params = array_merge($this->getParams(), $pathParams);
 
       //Redirect to controller
       $className = "App\\Controller\\" . $route['controller'];
@@ -109,5 +114,22 @@ class FrontController extends Controller {
 
     //Invalid route
     $this->respondNotFound();
+  }
+
+  /**
+   * Get request parameters
+   */
+  private function getParams()
+  {
+    //GET and POST
+    if($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "POST")
+      return $_REQUEST;
+
+    //OTHERS
+    $contents = file_get_contents("php://input");
+
+    parse_str($contents, $params);
+
+    return $params;    
   }
 }

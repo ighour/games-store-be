@@ -109,6 +109,8 @@ abstract class DAO {
    */
   private function paramsToQueryInsert(array $params)
   {
+    $finalParams = [];
+
     foreach($params as $key => $value){
       $finalParams[] = "{$key} = :{$key}";
     }
