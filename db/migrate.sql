@@ -10,3 +10,10 @@ CREATE TABLE users (
   role varchar(255),
   PRIMARY KEY (id)
 );
+
+-- Blacklist Token
+CREATE TABLE token_blacklist (
+  id int NOT NULL AUTO_INCREMENT,
+  token text NOT NULL,
+  PRIMARY KEY (id)
+);

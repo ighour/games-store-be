@@ -3,6 +3,7 @@
 namespace App\Middleware;
 
 use \App\Libs\JWT;
+use \App\DAO\TokenBlacklist as DAO;
 
 abstract class Auth {
   /**
@@ -32,6 +33,11 @@ abstract class Auth {
       $state->withPayload(['error' => $e->message])->respondForbidden("Invalid authentication.");
     }
 
+    //Check if is blacklisted
+    if((new DAO())->isBlacklisted($jwt)){
+      $state->respondForbidden("Token is blacklisted.");
+    }
+
     //Check allowed roles
     if(!is_null($roles)){
       $userRole = $decodedJWT->pay->role;
@@ -40,8 +46,11 @@ abstract class Auth {
         $state->respondForbidden("Forbidden access.");
     }
 
-    //Save decoded JWT
-    $state->decodedJWT = $decodedJWT;
+    //Save JWT
+    $state->jwt = [
+      'decoded' => $decodedJWT,
+      'encoded' => $jwt
+    ];
   }
 }
 

@@ -39,9 +39,9 @@ abstract class Controller {
   protected $validation;
 
   /**
-   * Decoded JWT
+   * JWT (decoded + encoded)
    */
-  public $decodedJWT;
+  public $jwt;
 
   /**
    * Code Messages
@@ -69,13 +69,28 @@ abstract class Controller {
   protected function getAuthId()
   {
     try {
-      $id = $this->decodedJWT->pay->id;
+      $id = $this->jwt['decoded']->pay->id;
     }
     catch(Exception $e){
       return null;
     }
 
     return $id;
+  }
+
+  /**
+   * Get auth encoded token
+   */
+  protected function getEncodedJWT()
+  {
+    try {
+      $jwt = $this->jwt['encoded'];
+    }
+    catch(Exception $e){
+      return null;
+    }
+
+    return $jwt;
   }
 
   /**

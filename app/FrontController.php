@@ -35,6 +35,7 @@ class FrontController extends Controller {
     //Set Routes
     $this->setRoute(['method' => 'GET', 'route' => '/', 'controller' => 'HomeController', 'action' => 'index'])
           ->setRoute(['method' => 'POST', 'route' => '/login', 'controller' => 'AuthController', 'action' => 'login'])
+          ->setRoute(['method' => 'POST', 'route' => '/logout', 'controller' => 'AuthController', 'action' => 'logout'])
           ->setResourceRoute('users', 'user_id', 'UserController');
   }
 
