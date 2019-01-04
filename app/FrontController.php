@@ -6,7 +6,8 @@ class FrontController {
   protected $url;
 
   protected $routes = [
-    ['route' => '/', 'controller' => 'HomeController', 'action' => 'index']
+    ['route' => '/', 'controller' => 'HomeController', 'action' => 'index'],
+    ['route' => '/users', 'controller' => 'UserController', 'action' => 'index']
   ];
 
   public function __construct(){
