@@ -108,4 +108,23 @@ class UserController extends Controller {
     //Response
     $this->withPayload(['user' => $resource])->respondOk();
   }
+
+  /**
+   * Delete an element
+   */
+  public function delete()
+  {
+    //Get id
+    $id = $this->request['user_id'];
+
+    //Delete
+    $element = $this->DAO->delete($id);
+
+    //Not Found
+    if(!$element)
+      $this->respondNotFound();
+
+    //Response
+    $this->respondOk();
+  }
 }

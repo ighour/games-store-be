@@ -24,20 +24,17 @@ class FrontController extends Controller {
   /**
    * App Routes
    */
-  protected $routes = [
-    ['method' => 'GET',   'route' => '/',                     'controller' => 'HomeController',     'action' => 'index'],
-
-    ['method' => 'GET',   'route' => '/users',                'controller' => 'UserController',     'action' => 'index'],
-    ['method' => 'POST',  'route' => '/users',                'controller' => 'UserController',     'action' => 'create'],
-    ['method' => 'GET',   'route' => '/users/:user_id',       'controller' => 'UserController',     'action' => 'show'],
-    ['method' => 'PUT',   'route' => '/users/:user_id/edit',  'controller' => 'UserController',     'action' => 'update'],
-  ];
+  protected $routes = [];
 
   /**
    * Constructor
    */
   public function __construct(){
     $this->url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
+    //Set Routes
+    $this->setRoute(['method' => 'GET', 'route' => '/', 'controller' => 'HomeController', 'action' => 'index'])
+          ->setResourceRoute('users', 'user_id', 'UserController');
   }
 
   /**
@@ -131,5 +128,38 @@ class FrontController extends Controller {
     parse_str($contents, $params);
 
     return $params;    
+  }
+
+  /**
+   * Set route
+   */
+  private function setRoute(array $route)
+  {
+    $this->routes[] = $route;
+
+    return $this;
+  }
+
+  /**
+   * Generate resourcefull CRUD routes
+   */
+  private function setResourceRoute($resource, $id, $controller, $crud=['index', 'create', 'show', 'update', 'delete'])
+  {
+    if(in_array('index', $crud))
+      $this->setRoute(['method' => 'GET',   'route' => "/{$resource}",              'controller' => $controller,     'action' => 'index']);
+
+    if(in_array('create', $crud))
+      $this->setRoute(['method' => 'POST',  'route' => "/{$resource}",              'controller' => $controller,     'action' => 'create']);
+
+    if(in_array('show', $crud))
+      $this->setRoute(['method' => 'GET',   'route' => "/{$resource}/:{$id}",       'controller' => $controller,     'action' => 'show']);
+
+    if(in_array('update', $crud))
+      $this->setRoute(['method' => 'PUT',   'route' => "/{$resource}/:{$id}/edit",  'controller' => $controller,     'action' => 'update']);
+    
+    if(in_array('delete', $crud))
+      $this->setRoute(['method' => 'DELETE','route' => "/{$resource}/:{$id}",       'controller' => $controller,     'action' => 'delete']);
+
+    return $this;
   }
 }
