@@ -48,6 +48,10 @@ class UserController extends Controller {
     //Params
     $params = $this->params(['username', 'email', 'password', 'role']);
 
+    //Hash password before storing in DB
+    $hash = password_hash($params['password'], PASSWORD_BCRYPT);
+    $params['password'] = $hash;
+
     //Create
     $element = $this->DAO->create($params);
 
