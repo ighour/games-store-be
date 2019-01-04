@@ -34,10 +34,16 @@ abstract class Controller {
   protected $request;
 
   /**
+   * Request validation
+   */
+  protected $validation;
+
+  /**
    * Code Messages
    */
   private $CODES = [
-    '200' => "OK"
+    '200' => "OK",
+    '404' => "Not Found"
   ];
 
   /**
@@ -108,5 +114,13 @@ abstract class Controller {
   protected function respondOk($message = null)
   {
     $this->withCode(200)->withMessage($message)->respond();
+  }
+
+  /**
+   * Respond Not Found (404)
+   */
+  protected function respondNotFound($message = null)
+  {
+    $this->withCode(404)->withMessage($message)->respond();
   }
 }
