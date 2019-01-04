@@ -53,7 +53,8 @@ abstract class Controller {
    */
   public function __construct($request = null)
   {
-    $this->request = $request;
+    if(!is_null($request))
+      $this->request = $request;
   }
 
   /**
