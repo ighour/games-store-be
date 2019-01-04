@@ -14,4 +14,11 @@ class User extends DAO {
     $this->table = 'users';
     $this->model = UserModel::class;
   }
+
+  /**
+   * Fetch user by email
+   */
+  public function fetchByEmail($email){
+    return $this->fetchByWhere(['email' => $email], 'email = :email');
+  }
 }
