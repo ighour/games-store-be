@@ -6,6 +6,7 @@ use \App\DAO\User as DAO;
 use \App\Resource\UserResource as Resource;
 use \App\Sanitization\UserSanitization as Sanitization;
 use \App\Validation\UserValidation as Validation;
+use \Firebase\JWT\JWT;
 
 class UserController extends Controller {
   /**
@@ -156,7 +157,33 @@ class UserController extends Controller {
     if(!password_verify($params['password'], $user->password))
       $this->respondBadRequest("Wrong Credentials.");
 
+    //Generate Token
+    $jwt = $this->tokenGen($user);
+
     //Response
-    $this->respondOk("Logged in.");
+    $this->withPayload(['token' => $jwt])->respondOk("Logged in.");
+  }
+
+  /**
+   * Generate Token
+   */
+  private function tokenGen($user)
+  {
+    $key = getenv('JWT_KEY');  //Private key
+    $url = $_SERVER['REQUEST_SCHEME'] . '://' . parse_url($_SERVER['SERVER_NAME'])['path'];  //Get issuer by Scheme + Hostname
+
+    $token = [
+      'iss' =>  $url, //Issuer
+      'aud' => $url, //Audience
+      'iat' => date_timestamp_get(date_create()), //Issued at
+      'nbf' => 1546634169, //Not before (2019-01-04)
+      'exp' => getenv('JWT_EXPIRE') + 1546634169, //Expires in (ms)
+      'pay' => [  //Payload
+        'id' => $user->id,
+        'username' => $user->username
+      ]
+    ];
+
+    return JWT::encode($token, $key);
   }
 }
