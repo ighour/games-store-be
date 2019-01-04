@@ -3,7 +3,7 @@
 namespace App;
 
 use \App\Controller\Controller;
-use \App\Helpers\Helpers;
+use \App\Libs\Helpers;
 
 class FrontController extends Controller {
   /**

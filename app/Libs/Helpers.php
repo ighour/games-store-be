@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Helpers;
+namespace App\Libs;
 
 abstract class Helpers {
 
