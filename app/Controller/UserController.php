@@ -9,12 +9,17 @@ class UserController extends Controller {
   /**
    * Constructor
    */
-  public function __construct()
+  public function __construct($request)
   {
+    parent::__construct($request);
+
     $this->DAO = new DAO();
     $this->resource = new Resource();
   }
 
+  /**
+   * Fetch all elements
+   */
   public function index()
   {
     $users = $this->DAO->fetchAll();

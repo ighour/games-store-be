@@ -29,11 +29,24 @@ abstract class Controller {
   protected $resource;
 
   /**
+   * Request
+   */
+  protected $request;
+
+  /**
    * Code Messages
    */
   private $CODES = [
     '200' => "OK"
   ];
+
+  /**
+   * Constructor
+   */
+  public function __construct($request = null)
+  {
+    $this->request = $request;
+  }
 
   /**
    * Set response http code
