@@ -12,10 +12,10 @@ class DatabaseConnection {
 
   //Make connection
   public function connect(){
-    $host = __SQL_CREDS__['host'];
-    $db_name = __SQL_CREDS__['db_name'];
-    $db_user = __SQL_CREDS__['db_user'];
-    $db_password = __SQL_CREDS__['db_password'];
+    $host = getenv('DATABASE_HOST');
+    $db_name = getenv('DATABASE_NAME');
+    $db_user = getenv('DATABASE_USER');
+    $db_password = getenv('DATABASE_PASSWORD');
 
     $this->connection = null;
 
