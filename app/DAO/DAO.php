@@ -10,7 +10,7 @@ abstract class DAO {
   /**
    * DB connection
    */
-  protected $connection;
+  private $connection;
 
   /**
    * DB table
@@ -25,22 +25,22 @@ abstract class DAO {
   /**
    * SQL Statement
    */
-  protected $statement;
+  private $statement;
 
   /**
    * SQL query
    */
-  protected $query;
+  private $query;
 
   /**
    * Parameters
    */
-  protected $params;
+  private $params;
   
   /**
    * Connect to DB
    */
-  protected function connect(){
+  private function connect(){
     try{
       $DB = new DatabaseConnection();
       $this->connection = $DB->connect();
@@ -56,7 +56,7 @@ abstract class DAO {
   /**
    * Prepare a statement
    */
-  protected function prepare(){
+  private function prepare(){
     $this->statement = $this->connection->prepare($this->query);
 
     return $this;
@@ -65,17 +65,8 @@ abstract class DAO {
   /**
    * Execute a statement
    */
-  protected function execute(){
+  private function execute(){
     $this->statement->execute($this->params);
-
-    return $this;
-  }
-
-  /**
-   * Set query
-   */
-  protected function withQuery($query){
-    $this->query = $query;
 
     return $this;
   }
@@ -83,7 +74,7 @@ abstract class DAO {
   /**
    * Set query params
    */
-  protected function withParams(array $params){
+  private function withParams(array $params){
     $parsedParams = [];
 
     foreach($params as $key => $value){
@@ -96,16 +87,88 @@ abstract class DAO {
   }
 
   /**
+   * Parse parameters to query
+   * ...[PARAMS] VALUES [VALUES]...
+   */
+  private function paramsToQuery(array $params)
+  {
+    foreach($params as $key => $value){
+      $attributes[] = $key;
+      $values[] = ":{$key}";
+    }
+
+    return [
+      'params' => join(", ", $attributes),
+      'values' => join(", ", $values)
+    ];
+  }
+
+  /**
+   * Parse parameters to query for insert
+   * ...[PARAMS = VALUES]...
+   */
+  private function paramsToQueryInsert(array $params)
+  {
+    foreach($params as $key => $value){
+      $finalParams[] = "{$key} = :{$key}";
+    }
+
+    return join(", ", $finalParams);
+  }
+
+  /**
+   * Generate select query
+   */
+  private function generateSelectQuery(array $params){
+    $parsedParams = $this->paramsToQuery($params);
+
+    $this->query = "SELECT * FROM {$this->table} WHERE {$parsedParams['params']} = {$parsedParams['values']}";
+
+    return $this->withParams($params);
+  }
+
+  /**
+   * Generate insert query
+   */
+  private function generateInsertQuery(array $params){
+    $parsedParams = $this->paramsToQuery($params);
+
+    $this->query = "INSERT INTO {$this->table} ({$parsedParams['params']}) VALUES ({$parsedParams['values']})";
+
+    return $this->withParams($params);
+  }
+
+  /**
+   * Generate update query
+   */
+  private function generateUpdateQuery(array $params, $id){
+    $parsedParams = $this->paramsToQueryInsert($params);
+
+    $this->query = "UPDATE {$this->table} SET {$parsedParams} WHERE id = :id";
+
+    return $this->withParams(array_merge($params, ['id' => $id]));
+  }
+
+  /**
+   * Generate delete query
+   */
+  private function generateDeleteQuery($id){
+    $this->query = "DELETE FROM {$this->table} WHERE id = :id";
+
+    return $this->withParams(['id' => $id]);
+  }
+
+  /**
    * PDO fetch all rows
    */
-  protected function fetchRows(){
+  private function fetchRows(){
     return $this->statement->fetchAll(PDO::FETCH_CLASS, $this->model);
   }
 
   /**
    * PDO fetch one row
    */
-  protected function fetchRow(){
+  private function fetchRow(){
     $this->statement->setFetchMode(PDO::FETCH_CLASS, $this->model);
 
     return $this->statement->fetch();
@@ -115,8 +178,9 @@ abstract class DAO {
    * Fetch all elements from table
    */
   public function fetchAll(){
+    $this->query = "SELECT * FROM {$this->table}";
+    
     return $this->connect()
-                ->withQuery("SELECT * FROM {$this->table}")
                 ->prepare()
                 ->execute()
                 ->fetchRows();
@@ -127,21 +191,59 @@ abstract class DAO {
    */
   public function fetchById($id){
     return $this->connect()
-                ->withQuery("SELECT * FROM {$this->table} WHERE id = :id")
+                ->generateSelectQuery(['id' => $id])
                 ->prepare()
-                ->withParams([':id' => $id])
                 ->execute()
                 ->fetchRow();
   }
 
   /**
-   * Insert element in table
+   * Create element
    */
-  protected function insert(array $params){
-    if(is_null($this->query))
-      throw new Exception("Query is required when using insert.");
+  public function create(array $params)
+  {
+    $id = $this->connect()
+                ->generateInsertQuery($params)
+                ->prepare()
+                ->execute()
+                ->connection
+                ->lastInsertId();
 
-    return $this->connect()->prepare()->withParams($params)->execute()->connection->lastInsertId();
+    $className = $this->model;
 
+    $element = new $className();
+
+    $element->setParams(array_merge($params, ['id' => $id]));
+
+    return $element;
+  }
+
+  /**
+   * Update element
+   */
+  public function update(array $params, $id)
+  {
+    $this->connect()
+          ->generateUpdateQuery($params, $id)
+          ->prepare()
+          ->execute();
+
+    if($this->statement->rowCount() == 0)
+      return false;
+
+    return $this->fetchById($id);
+  }
+
+  /**
+   * Delete element
+   */
+  public function delete($id)
+  {
+    $this->connect()
+          ->generateDeleteQuery($id)
+          ->prepare()
+          ->execute();
+
+    return $this->statement->rowCount() > 0;
   }
 }

@@ -9,10 +9,6 @@ class HomeController {
     try{
       $userDAO = new User();
 
-      $user = $userDAO->create(['username' => 'teste2', 'email' => 'a@AA.com', 'password' => 'secret', 'role' => null]);
-      var_dump($user);
-      echo "<br/>";
-
       $users = $userDAO->fetchAll();
     }
     catch(Exception $exception){
