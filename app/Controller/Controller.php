@@ -112,7 +112,7 @@ abstract class Controller {
     header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
     header("Access-Control-Max-Age: 3600");
     header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-    header("HTTP/1.1 {$this->code} {$this->CODES[$this->code]}");
+    http_response_code($this->code);
 
     //Set response
     $response = [
