@@ -3,6 +3,7 @@
 namespace App;
 
 use \App\Controller\Controller;
+use \App\Helpers\Helpers;
 
 class FrontController extends Controller {
   /**
@@ -27,7 +28,8 @@ class FrontController extends Controller {
     ['method' => 'GET',   'route' => '/',                 'controller' => 'HomeController',     'action' => 'index'],
 
     ['method' => 'GET',   'route' => '/users',            'controller' => 'UserController',     'action' => 'index'],
-    ['method' => 'POST',  'route' => '/users',            'controller' => 'UserController',     'action' => 'create']
+    ['method' => 'POST',  'route' => '/users',            'controller' => 'UserController',     'action' => 'create'],
+    ['method' => 'GET',   'route' => '/users/:user_id',   'controller' => 'UserController',     'action' => 'show'],
   ];
 
   /**
@@ -41,21 +43,69 @@ class FrontController extends Controller {
    * Redirect to proper controller
    */
   public function run(){
+    $urlSegments = explode("?", $this->url);
+    $urlPath = explode("/", $urlSegments[0]);
     $method = $_SERVER['REQUEST_METHOD'];
-    $params = $_REQUEST;
 
-    array_walk($this->routes, function($route) use($method, $params){
+    for($i = 0; $i < sizeof($this->routes); $i++){
+      $route = $this->routes[$i];
 
-      //Valid route
-      if($method === $route['method'] && ($this->url == $route['route'] || $this->url == $route['route'] . '/')){
-        $className = "App\\Controller\\" . $route['controller'];
-        $controller = new $className($params);        
-        $method = $route['action'];
-        $controller->$method();
-        die();
+      //Set path params
+      $pathParams = [];
+
+      //Not same method
+      if($route['method'] != $method)
+        continue;
+
+      //Generate route array
+      $routePath = explode("/", $route['route']);
+
+      //Check route
+      for($j = 0; $j < sizeof($urlPath); $j++){
+        $abort = false;
+
+        //Does not have path
+        if(!isset($routePath[$j])){
+          $abort = true;
+          break;
+        }
+
+        //Get current path segment
+        $path = $routePath[$j];
+
+        //Is parameter
+        if(Helpers::startsWith($path, ":")){
+          //Request is not parameter
+          if(!is_numeric($urlPath[$j])){
+            $abort = true;
+            break;
+          }
+
+          //Save parameter
+          $pathParams[substr($path, 1)] = $urlPath[$j];
+        }
+
+        //Path is different
+        else if($path !== $urlPath[$j]){
+          $abort = true;
+          break;
+        }
       }
 
-    });
+      //Invalid request
+      if($abort)
+        continue;
+
+      //Set params
+      $params = array_merge($_REQUEST, $pathParams);
+
+      //Redirect to controller
+      $className = "App\\Controller\\" . $route['controller'];
+      $controller = new $className($params);        
+      $method = $route['action'];
+      $controller->$method();
+      die();
+    }
 
     //Invalid route
     $this->respondNotFound();

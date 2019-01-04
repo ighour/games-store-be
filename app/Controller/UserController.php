@@ -56,4 +56,26 @@ class UserController extends Controller {
     //Response
     $this->withPayload(['user' => $resource])->respondCreated();
   }
+
+  /**
+   * Show an element
+   */
+  public function show()
+  {
+    //Get id
+    $id = $this->request['user_id'];
+
+    //Fetch element
+    $element = $this->DAO->fetchById($id);
+
+    //Not found
+    if(!$element)
+      $this->respondNotFound("User not found.");
+
+    //Set resource
+    $resource = $this->resource->element($element);
+
+    //Response
+    $this->withPayload(['user' => $resource])->respondOk();
+  }
 }
