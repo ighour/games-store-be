@@ -43,6 +43,7 @@ abstract class Controller {
    */
   private $CODES = [
     '200' => "OK",
+    '400' => "Bad Request",
     '404' => "Not Found"
   ];
 
@@ -106,6 +107,8 @@ abstract class Controller {
 
     //Respond
     echo json_encode($response);
+
+    die();
   }
 
   /**
@@ -114,6 +117,14 @@ abstract class Controller {
   protected function respondOk($message = null)
   {
     $this->withCode(200)->withMessage($message)->respond();
+  }
+
+  /**
+   * Respond Bad Request (400)
+   */
+  protected function respondBadRequest($message = null)
+  {
+    $this->withCode(400)->withMessage($message)->respond();
   }
 
   /**
