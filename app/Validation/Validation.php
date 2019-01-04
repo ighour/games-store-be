@@ -159,14 +159,4 @@ abstract class Validation {
     if(!in_array($this->request[$param], $valid))
       $this->setError($param, "Invalid option.");
   }
-
-  /**
-   * Validate Create
-   */
-  abstract public function create();
-
-  /**
-   * Validate Update
-   */
-  abstract public function update();
 }
