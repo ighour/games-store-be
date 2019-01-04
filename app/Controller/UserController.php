@@ -6,6 +6,7 @@ use \App\DAO\User as DAO;
 use \App\Resource\UserResource as Resource;
 use \App\Sanitization\UserSanitization as Sanitization;
 use \App\Validation\UserValidation as Validation;
+use \App\Middleware\Auth as AuthMiddleware;
 
 class UserController extends Controller {
   /**
@@ -25,6 +26,9 @@ class UserController extends Controller {
    */
   public function index()
   {
+    //Auth Middleware
+    AuthMiddleware::run($this, ['admin']);
+
     //Fetch all
     $users = $this->DAO->fetchAll();
 
@@ -67,6 +71,9 @@ class UserController extends Controller {
    */
   public function show()
   {
+    //Auth Middleware
+    AuthMiddleware::run($this, ['admin']);
+
     //Get id
     $id = $this->request['user_id'];
 
@@ -100,6 +107,11 @@ class UserController extends Controller {
     //Get id
     $id = $this->request['user_id'];
 
+    //Auth Middleware (if is not himself)
+    $userId = $this->getAuthId();
+    if($userId !== $id)
+      AuthMiddleware::run($this, ['admin']);
+
     //Update
     $element = $this->DAO->update($params, $id);
 
@@ -119,6 +131,9 @@ class UserController extends Controller {
    */
   public function delete()
   {
+    //Auth Middleware
+    AuthMiddleware::run($this, ['admin']);
+
     //Get id
     $id = $this->request['user_id'];
 

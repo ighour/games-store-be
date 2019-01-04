@@ -39,12 +39,18 @@ abstract class Controller {
   protected $validation;
 
   /**
+   * Decoded JWT
+   */
+  public $decodedJWT;
+
+  /**
    * Code Messages
    */
   private $CODES = [
     '200' => "OK",
     '201' => "Created",
     '400' => "Bad Request",
+    '403' => "Forbidden",
     '404' => "Not Found"
   ];
 
@@ -55,6 +61,21 @@ abstract class Controller {
   {
     if(!is_null($request))
       $this->request = $request;
+  }
+
+  /**
+   * Get auth id
+   */
+  protected function getAuthId()
+  {
+    try {
+      $id = $this->decodedJWT->pay->id;
+    }
+    catch(Exception $e){
+      return null;
+    }
+
+    return $id;
   }
 
   /**
@@ -134,7 +155,7 @@ abstract class Controller {
   /**
    * Respond OK (200)
    */
-  protected function respondOk($message = null)
+  public function respondOk($message = null)
   {
     $this->withCode(200)->withMessage($message)->respond();
   }
@@ -142,7 +163,7 @@ abstract class Controller {
   /**
    * Respond Created (201)
    */
-  protected function respondCreated($message = null)
+  public function respondCreated($message = null)
   {
     $this->withCode(201)->withMessage($message)->respond();
   }
@@ -150,15 +171,23 @@ abstract class Controller {
   /**
    * Respond Bad Request (400)
    */
-  protected function respondBadRequest($message = null)
+  public function respondBadRequest($message = null)
   {
     $this->withCode(400)->withMessage($message)->respond();
   }
 
   /**
+   * Respond Forbidden (403)
+   */
+  public function respondForbidden($message = null)
+  {
+    $this->withCode(403)->withMessage($message)->respond();
+  }
+
+  /**
    * Respond Not Found (404)
    */
-  protected function respondNotFound($message = null)
+  public function respondNotFound($message = null)
   {
     $this->withCode(404)->withMessage($message)->respond();
   }
