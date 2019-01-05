@@ -30,12 +30,12 @@ abstract class Auth {
       $decodedJWT = JWT::decode($jwt);
     }
     catch(Exception $e){
-      $state->withPayload(['error' => $e->message])->respondForbidden("Invalid authentication.");
+      $state->withPayload(['error' => $e->message])->respondForbidden("INVALID_TOKEN");
     }
 
     //Check if is blacklisted
     if((new DAO())->isBlacklisted($jwt)){
-      $state->respondForbidden("Token is blacklisted.");
+      $state->respondForbidden("INVALID_TOKEN");
     }
 
     //Check allowed roles
@@ -43,7 +43,7 @@ abstract class Auth {
       $userRole = $decodedJWT->pay->role;
 
       if(!in_array($userRole, $roles))
-        $state->respondForbidden("Forbidden access.");
+        $state->respondForbidden("INVALID_TOKEN_ACCESS");
     }
 
     //Save JWT
