@@ -201,4 +201,12 @@ abstract class Controller {
   {
     $this->withCode(404)->withMessage($message)->respond();
   }
+
+  /**
+   * Respond Custom Validation Error
+   */
+  public function respondValidationError()
+  {
+    $this->withCode(400)->withMessage("FORM_VALIDATION_ERROR")->respond();
+  }
 }

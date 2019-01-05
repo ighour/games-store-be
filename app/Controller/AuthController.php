@@ -31,7 +31,7 @@ class AuthController extends Controller {
     //Validate
     $this->validation->login();
     if($errors = $this->validation->errors())
-      $this->withPayload(['errors' => $errors])->respondBadRequest();
+      $this->withPayload(['errors' => $errors])->respondValidationError();
 
     //Get params
     $params = $this->params(['email', 'password']);

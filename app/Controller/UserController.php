@@ -47,7 +47,7 @@ class UserController extends Controller {
     //Validate
     $this->validation->create();
     if($errors = $this->validation->errors())
-      $this->withPayload(['errors' => $errors])->respondBadRequest();
+      $this->withPayload(['errors' => $errors])->respondValidationError();
 
     //Params
     $params = $this->params(['username', 'email', 'password', 'role']);
@@ -99,7 +99,7 @@ class UserController extends Controller {
     //Validate
     $this->validation->update();
     if($errors = $this->validation->errors())
-      $this->withPayload(['errors' => $errors])->respondBadRequest();
+      $this->withPayload(['errors' => $errors])->respondValidationError();
       
     //Params
     $params = $this->params(['username', 'email', 'password', 'role']);
