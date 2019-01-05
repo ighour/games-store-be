@@ -125,16 +125,24 @@ class FrontController extends Controller {
    */
   private function getParams()
   {
-    //GET and POST
-    if($_SERVER['REQUEST_METHOD'] == "GET" || $_SERVER['REQUEST_METHOD'] == "POST")
-      return $_REQUEST;
+    $method = $_SERVER['REQUEST_METHOD'];
+
+    //GET
+    if($method == "GET")
+      return $_GET;
+
+    //POST (application/x-www-form-urlencoded)
+    else if($method == "POST" && sizeof($_POST) > 0){
+      return $_POST;
+    }
 
     //OTHERS
     $contents = file_get_contents("php://input");
 
-    parse_str($contents, $params);
-
-    return $params;    
+    if(strlen($contents) == 0)
+      return [];
+      
+    return json_decode($contents, true);    
   }
 
   /**
