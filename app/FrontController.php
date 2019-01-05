@@ -4,6 +4,7 @@ namespace App;
 
 use \App\Controller\Controller;
 use \App\Libs\Helpers;
+use \App\Middleware\CORS;
 
 class FrontController extends Controller {
   /**
@@ -43,6 +44,9 @@ class FrontController extends Controller {
    * Redirect to proper controller
    */
   public function run(){
+    //Run CORS
+    CORS::run();
+
     $urlSegments = explode("?", $this->url);
     $urlPath = explode("/", $urlSegments[0]);
     $method = $_SERVER['REQUEST_METHOD'];
@@ -112,6 +116,7 @@ class FrontController extends Controller {
     }
 
     //Invalid route
+    http_response_code(404);
     $this->respondNotFound();
   }
 
