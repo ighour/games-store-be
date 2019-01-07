@@ -2,6 +2,8 @@
 
 namespace App\Validation;
 
+use \App\Libs\Helpers;
+
 abstract class Validation {
   /**
    * Request
@@ -123,6 +125,38 @@ abstract class Validation {
   }
 
   /**
+   * Check: Integer
+   */
+  protected function checkInteger($param)
+  {
+    try {
+      $val = intval($this->request[$param]);
+
+      if($val != $this->request[$param])
+        $this->setError($param, "Need to be integer numeric.");
+    }
+    catch(Exception $e){
+      $this->setError($param, "Need to be integer numeric.");
+    }
+  }
+
+  /**
+   * Check: Double
+   */
+  protected function checkDouble($param, $digits=2)
+  {
+    try {
+      $val = doubleval($this->request[$param]);
+
+      if($val != $this->request[$param] || Helpers::numberDecimals($this->request[$param]) > $digits)
+        $this->setError($param, "Need to be double numeric with {$digits} digits.");
+    }
+    catch(Exception $e){
+      $this->setError($param, "Need to be double numeric.");
+    }
+  }
+
+  /**
    * Check: Between
    */
   protected function checkBetween($param, $min, $max)
@@ -136,6 +170,16 @@ abstract class Validation {
     else{
       if($this->request[$param] < $min || $this->request[$param] > $max)
         $this->setError($param, "Need to be between {$min} and {$max}.");
+    }
+  }
+
+  /**
+   * Check: Exists
+   */
+  protected function checkExists($param, $fetch)
+  {
+    if($fetch == false){
+      $this->setError($param, "Do not exists.");
     }
   }
 
