@@ -6,7 +6,7 @@ class ItemCategory extends Resource {
   public function element($element)
   {
     return [
-      'id' => $element->id,
+      'id' => (int) $element->id,
       'name' => $element->name
     ];
   }
