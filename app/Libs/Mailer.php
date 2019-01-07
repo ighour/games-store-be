@@ -19,7 +19,7 @@ class Mailer {
     $this->mailer = new PHPMailer(true);                          // Passing `true` enables exceptions
 
     //Server settings
-    $this->mailer->SMTPDebug = 2;                                 // Enable verbose debug output
+    $this->mailer->SMTPDebug = 0;                                 // Enable verbose debug output
     $this->mailer->isSMTP();                                      // Set mailer to use SMTP
     $this->mailer->Host = getenv('MAILER_HOST');                  // Specify main and backup SMTP servers
     $this->mailer->SMTPAuth = true;                               // Enable SMTP authentication
