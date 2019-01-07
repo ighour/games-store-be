@@ -25,3 +25,10 @@ CREATE TABLE recover_tokens (
   email varchar(255) NOT NULL,
   PRIMARY KEY (id)
 );
+
+-- Item Categories
+CREATE TABLE item_categories (
+  id int NOT NULL AUTO_INCREMENT,
+  name varchar(255) NOT NULL UNIQUE,
+  PRIMARY KEY (id)
+);
