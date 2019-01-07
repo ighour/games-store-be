@@ -2,7 +2,7 @@
 
 namespace App\Resource;
 
-class UserResource extends Resource {
+class User extends Resource {
   public function element($user)
   {
     return [

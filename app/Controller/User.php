@@ -3,12 +3,12 @@
 namespace App\Controller;
 
 use \App\DAO\User as DAO;
-use \App\Resource\UserResource as Resource;
-use \App\Sanitization\UserSanitization as Sanitization;
-use \App\Validation\UserValidation as Validation;
+use \App\Resource\User as Resource;
+use \App\Sanitization\User as Sanitization;
+use \App\Validation\User as Validation;
 use \App\Middleware\Auth as AuthMiddleware;
 
-class UserController extends Controller {
+class User extends Controller {
   /**
    * Constructor
    */

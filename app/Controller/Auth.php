@@ -5,15 +5,15 @@ namespace App\Controller;
 use \App\DAO\User as DAO;
 use \App\DAO\TokenBlacklist as TokenBlacklistDAO;
 use \App\DAO\RecoverToken as RecoverTokenDAO;
-use \App\Resource\UserResource as Resource;
-use \App\Sanitization\AuthSanitization as Sanitization;
-use \App\Validation\AuthValidation as Validation;
+use \App\Resource\User as Resource;
+use \App\Sanitization\Auth as Sanitization;
+use \App\Validation\Auth as Validation;
 use \App\Libs\JWT;
 use \App\Middleware\Auth as AuthMiddleware;
 use \App\Libs\Emails\RecoverPassword;
 use PHPMailer\PHPMailer\Exception as MailerException;
 
-class AuthController extends Controller {
+class Auth extends Controller {
   /**
    * Constructor
    */

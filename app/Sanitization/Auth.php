@@ -2,7 +2,7 @@
 
 namespace App\Sanitization;
 
-abstract class AuthSanitization extends Sanitization {
+abstract class Auth extends Sanitization {
   /**
    * Sanitize
    */

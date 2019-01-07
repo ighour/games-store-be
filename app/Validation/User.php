@@ -4,7 +4,7 @@ namespace App\Validation;
 
 use \App\DAO\User as UserDAO;
 
-class UserValidation extends Validation {
+class User extends Validation {
    /**
    * Constructor
    */

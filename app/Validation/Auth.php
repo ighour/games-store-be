@@ -2,7 +2,7 @@
 
 namespace App\Validation;
 
-class AuthValidation extends Validation {
+class Auth extends Validation {
   /**
    * Validate Login
    */

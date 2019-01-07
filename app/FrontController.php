@@ -34,11 +34,11 @@ class FrontController extends Controller {
     $this->url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
     //Set Routes
-    $this->setRoute(['method' => 'GET', 'route' => '/', 'controller' => 'HomeController', 'action' => 'index'])
-          ->setRoute(['method' => 'POST', 'route' => '/login', 'controller' => 'AuthController', 'action' => 'login'])
-          ->setRoute(['method' => 'POST', 'route' => '/logout', 'controller' => 'AuthController', 'action' => 'logout'])
-          ->setRoute(['method' => 'POST', 'route' => '/forget', 'controller' => 'AuthController', 'action' => 'forget'])
-          ->setRoute(['method' => 'POST', 'route' => '/recover', 'controller' => 'AuthController', 'action' => 'recover'])
+    $this->setRoute(['method' => 'GET', 'route' => '/', 'controller' => 'Home', 'action' => 'index'])
+          ->setRoute(['method' => 'POST', 'route' => '/login', 'controller' => 'Auth', 'action' => 'login'])
+          ->setRoute(['method' => 'POST', 'route' => '/logout', 'controller' => 'Auth', 'action' => 'logout'])
+          ->setRoute(['method' => 'POST', 'route' => '/forget', 'controller' => 'Auth', 'action' => 'forget'])
+          ->setRoute(['method' => 'POST', 'route' => '/recover', 'controller' => 'Auth', 'action' => 'recover'])
           ->setResourceRoute('users', 'user_id', 'UserController');
   }
 
