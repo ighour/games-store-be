@@ -95,6 +95,29 @@ abstract class Controller {
   }
 
   /**
+   * Provided user id is the same as auth
+   */
+  protected function isAuth($userId)
+  {
+    $auth = $this->getAuthId();
+
+    return !is_null($auth) && $auth == $userId;
+  }
+
+  /**
+   * Check if is owner of resource
+   */
+  protected function isOwner($id, $relation='user_id')
+  {
+    $element = $this->DAO->fetchById($id);
+
+    if(!$element || !isset($element->$relation) || $element->$relation != $element->id)
+      return false;
+
+    return true;
+  }
+
+  /**
    * Filter request parameters
    */
   protected function params($params)
