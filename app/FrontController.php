@@ -40,7 +40,8 @@ class FrontController extends Controller {
           ->setRoute(['method' => 'POST', 'route' => '/forget', 'controller' => 'Auth', 'action' => 'forget'])
           ->setRoute(['method' => 'POST', 'route' => '/recover', 'controller' => 'Auth', 'action' => 'recover'])
           ->setResourceRoute('users', 'user_id', 'User')
-          ->setResourceRoute('item-categories', 'item_category_id', 'ItemCategory');
+          ->setResourceRoute('item-categories', 'item_category_id', 'ItemCategory')
+          ->setResourceRoute('items', 'item_id', 'Item');
   }
 
   /**
