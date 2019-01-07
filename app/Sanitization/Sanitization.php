@@ -26,6 +26,17 @@ abstract class Sanitization {
   }
 
   /**
+   * Sanitize URL (FILTER_SANITIZE_URL)
+   */
+  protected static function URL($request, $param)
+  {
+    if(isset($request[$param])){
+      $result = filter_var($request[$param], FILTER_SANITIZE_URL);
+      $request[$param] = $result;
+    }
+  }
+
+  /**
    * Sanitize Integer (FILTER_SANITIZE_NUMBER_INT)
    */
   protected static function integer($request, $param)

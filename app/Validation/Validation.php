@@ -114,6 +114,15 @@ abstract class Validation {
   }
 
   /**
+   * Check: Url
+   */
+  protected function checkURL($param)
+  {
+    if(!filter_var($this->request[$param], FILTER_VALIDATE_URL))
+      $this->setError($param, "Invalid URL.");
+  }
+
+  /**
    * Check: Between
    */
   protected function checkBetween($param, $min, $max)
@@ -147,7 +156,7 @@ abstract class Validation {
   {
     $confirmed = "{$param}_confirmation";
 
-    if(!$this->isNotNull($confirmed))
+    if(!$this->isNotNull($confirmed) || $this->request[$param] != $this->request[$confirmed])
       $this->setError($param, "Confirmation is wrong.");
   }
 

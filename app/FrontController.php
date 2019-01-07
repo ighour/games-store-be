@@ -37,6 +37,8 @@ class FrontController extends Controller {
     $this->setRoute(['method' => 'GET', 'route' => '/', 'controller' => 'HomeController', 'action' => 'index'])
           ->setRoute(['method' => 'POST', 'route' => '/login', 'controller' => 'AuthController', 'action' => 'login'])
           ->setRoute(['method' => 'POST', 'route' => '/logout', 'controller' => 'AuthController', 'action' => 'logout'])
+          ->setRoute(['method' => 'POST', 'route' => '/forget', 'controller' => 'AuthController', 'action' => 'forget'])
+          ->setRoute(['method' => 'POST', 'route' => '/recover', 'controller' => 'AuthController', 'action' => 'recover'])
           ->setResourceRoute('users', 'user_id', 'UserController');
   }
 
@@ -139,10 +141,10 @@ class FrontController extends Controller {
     //OTHERS
     $contents = file_get_contents("php://input");
 
-    if(strlen($contents) == 0)
+    if(strlen($contents) == 0 || $contents == null)
       return [];
-      
-    return json_decode($contents, true);    
+
+    return json_decode(urldecode($contents), true);    
   }
 
   /**

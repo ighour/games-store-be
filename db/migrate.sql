@@ -17,3 +17,11 @@ CREATE TABLE token_blacklist (
   token text NOT NULL,
   PRIMARY KEY (id)
 );
+
+-- Recover Password Token
+CREATE TABLE recover_tokens (
+  id int NOT NULL AUTO_INCREMENT,
+  token text NOT NULL,
+  email varchar(255) NOT NULL,
+  PRIMARY KEY (id)
+);
