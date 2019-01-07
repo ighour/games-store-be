@@ -88,6 +88,13 @@ class AuthController extends Controller {
     //Params
     $params = $this->params(['email', 'callback']);
 
+    //Check if User is Valid
+    $user = $this->DAO->fetchByEmail($params['email']);
+
+    //User invalid (act as valid)
+    if(!$user)
+      $this->respondOk();
+
     //Generate Token
     $token = bin2hex(random_bytes(mt_rand(15,30)));
 
