@@ -48,6 +48,17 @@ abstract class Sanitization {
   }
 
   /**
+   * Sanitize Double (FILTER_SANITIZE_NUMBER_FLOAT)
+   */
+  protected static function double($request, $param)
+  {
+    if(isset($request[$param])){
+      $result = filter_var($request[$param], FILTER_SANITIZE_NUMBER_FLOAT, ['flags' => FILTER_FLAG_ALLOW_FRACTION]);
+      $request[$param] = $result;
+    }
+  }
+
+  /**
    * Sanitize
    */
   abstract public static function sanitize($request);
