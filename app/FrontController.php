@@ -39,7 +39,7 @@ class FrontController extends Controller {
           ->setRoute(['method' => 'POST', 'route' => '/logout', 'controller' => 'Auth', 'action' => 'logout'])
           ->setRoute(['method' => 'POST', 'route' => '/forget', 'controller' => 'Auth', 'action' => 'forget'])
           ->setRoute(['method' => 'POST', 'route' => '/recover', 'controller' => 'Auth', 'action' => 'recover'])
-          ->setResourceRoute('users', 'user_id', 'UserController');
+          ->setResourceRoute('users', 'user_id', 'User');
   }
 
   /**
