@@ -51,7 +51,8 @@ abstract class Controller {
     '201' => "Created",
     '400' => "Bad Request",
     '403' => "Forbidden",
-    '404' => "Not Found"
+    '404' => "Not Found",
+    '500' => "Internal Server Error"
   ];
 
   /**
@@ -200,6 +201,14 @@ abstract class Controller {
   public function respondNotFound($message = null)
   {
     $this->withCode(404)->withMessage($message)->respond();
+  }
+
+  /**
+   * Respond Internal Server Error (500)
+   */
+  public function respondInternalServerError($message = null)
+  {
+    $this->withCode(500)->withMessage($message)->respond();
   }
 
   /**
