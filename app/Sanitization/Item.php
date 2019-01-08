@@ -26,6 +26,9 @@ class Item extends Sanitization {
     //User Id
     $this->integer('user_id');
 
+    //Image
+    $this->image('image', 'games');
+
     //Return sanitized request params
     return $this->request;
   }

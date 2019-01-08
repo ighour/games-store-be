@@ -57,6 +57,16 @@ class Item extends Validation {
       $this->checkInteger('item_category_id');
       $this->checkExists('item_category_id', $this->DAOS['item_category']->fetchById($this->request['item_category_id']));
     }
+
+    //Image (Sanitized as String, false -> remove)
+    $image = $this->isPresent('image');
+    if($image){
+      $isBool = $this->isBoolean('image');
+      if(!$isBool){
+        $this->checkString('image');
+        $this->checkImageDimension('image', 'games', 300, 200);
+      }
+    }
   }
 
   /**
@@ -102,6 +112,16 @@ class Item extends Validation {
       $this->checkRequired('item_category_id');
       $this->checkInteger('item_category_id');
       $this->checkExists('item_category_id', $this->DAOS['item_category']->fetchById($this->request['item_category_id']));
+    }
+
+    //Image (Sanitized as String, false -> remove)
+    $image = $this->isPresent('image');
+    if($image){
+      $isBool = $this->isBoolean('image');
+      if(!$isBool){
+        $this->checkString('image');
+        $this->checkImageDimension('image', 'games', 300, 200);
+      }
     }
   }
 }

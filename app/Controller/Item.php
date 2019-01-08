@@ -7,6 +7,7 @@ use \App\Resource\Item as Resource;
 use \App\Sanitization\Item as Sanitization;
 use \App\Validation\Item as Validation;
 use \App\Middleware\Auth as AuthMiddleware;
+use \App\Libs\Helpers;
 
 class Item extends Controller {
   /**
@@ -49,7 +50,7 @@ class Item extends Controller {
       $this->withPayload(['errors' => $errors])->respondValidationError();
 
     //Params
-    $params = $this->params(['name', 'type', 'description', 'amount', 'item_category_id']);
+    $params = $this->params(['name', 'type', 'description', 'amount', 'item_category_id', 'image']);
 
     //Get User Id
     $params['user_id'] = $this->getAuthId();
@@ -104,7 +105,7 @@ class Item extends Controller {
       $this->withPayload(['errors' => $errors])->respondValidationError();
       
     //Params
-    $params = $this->params(['name', 'type', 'description', 'amount', 'item_category_id']);
+    $params = $this->params(['name', 'type', 'description', 'amount', 'item_category_id', 'image']);
 
     //Get id
     $id = $this->request['item_id'];
@@ -112,6 +113,15 @@ class Item extends Controller {
     //Check is the owner of item
     if(!$this->isOwner($id))
       $this->respondForbidden();
+
+    //Remove old image if is false (delete) or updated (string)
+    if(isset($params['image'])){
+      $element = $this->DAO->fetchById($id);
+      Helpers::deleteFile('games', $element->image);
+
+      if($params['image'] == false)
+        $params['image'] = null;
+    }
 
     //Update
     $element = $this->DAO->update($params, $id);
@@ -141,6 +151,10 @@ class Item extends Controller {
     //Check is the owner of item
     if(!$this->isOwner($id))
       $this->respondForbidden();
+
+    //Remove old image if is false (delete) or updated (string)
+    $element = $this->DAO->fetchById($id);
+    Helpers::deleteFile('games', $element->image);
 
     //Delete
     $element = $this->DAO->delete($id);

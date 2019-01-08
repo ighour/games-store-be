@@ -10,4 +10,5 @@ class Item extends Model {
   public $amount;
   public $item_category_id;
   public $user_id;
+  public $image;
 }

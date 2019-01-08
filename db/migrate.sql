@@ -41,6 +41,7 @@ CREATE TABLE items (
   type ENUM('new', 'used') NOT NULL,
   description varchar(255) DEFAULT NULL,
   amount DOUBLE(10, 2) NOT NULL,
+  image varchar(255) DEFAULT NULL,
   item_category_id INT NOT NULL,
   user_id INT NOT NULL,
   PRIMARY KEY (id),
