@@ -85,6 +85,10 @@ abstract class Helpers {
         //Users avatars
         else if($folder == 'avatars')
             Helpers::returnFile($root . '/storage/avatars' . '/' . $name);
+
+        //Users avatars
+        else if($folder == 'games')
+            Helpers::returnFile($root . '/storage/games' . '/' . $name);
     }
 
     /**
