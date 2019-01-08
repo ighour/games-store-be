@@ -84,6 +84,14 @@ abstract class Validation {
   }
 
   /**
+   * Is Boolean
+   */
+  protected function isBoolean($param)
+  {
+    return is_bool($this->request[$param]);
+  }
+
+  /**
    * Check: Required
    * Don't check anything else if false
    */
@@ -154,14 +162,6 @@ abstract class Validation {
     catch(Exception $e){
       $this->setError($param, "Need to be double numeric.");
     }
-  }
-
-  /**
-   * Check: Boolean
-   */
-  protected function checkBoolean($param)
-  {
-    return is_bool($this->request[$param]);
   }
 
   /**

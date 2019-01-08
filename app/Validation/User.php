@@ -54,7 +54,7 @@ class User extends Validation {
     //Avatar (Sanitized as String, false -> remove)
     $avatar = $this->isPresent('avatar');
     if($avatar){
-      $isBool = $this->checkBoolean('avatar');
+      $isBool = $this->isBoolean('avatar');
       if(!$isBool){
         $this->checkString('avatar');
         $this->checkImageDimension('avatar', 'avatars', 100, 100);
@@ -104,7 +104,7 @@ class User extends Validation {
     //Avatar (Sanitized as String, false -> remove)
     $avatar = $this->isPresent('avatar');
     if($avatar){
-      $isBool = $this->checkBoolean('avatar');
+      $isBool = $this->isBoolean('avatar');
       if(!$isBool){
         $this->checkString('avatar');
         $this->checkImageDimension('avatar', 'avatars', 100, 100);
