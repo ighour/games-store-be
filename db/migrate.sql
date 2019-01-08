@@ -8,6 +8,7 @@ CREATE TABLE users (
   email varchar(255) NOT NULL,
   password varchar(255) NOT NULL,
   role varchar(255),
+  avatar varchar(255) DEFAULT NULL,
   PRIMARY KEY (id)
 );
 

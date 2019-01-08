@@ -2,25 +2,28 @@
 
 namespace App\Sanitization;
 
-abstract class User extends Sanitization {
+class User extends Sanitization {
   /**
    * Sanitize
    */
-  public static function sanitize($request)
+  public function sanitize()
   {
     //Username
-    Sanitization::string($request, 'username', 'FILTER_FLAG_STRIP_HIGH');
+    $this->string('username', 'FILTER_FLAG_STRIP_HIGH');
 
     //Email
-    Sanitization::email($request, 'email');
+    $this->email('email');
 
     //Role
-    Sanitization::string($request, 'role', 'FILTER_FLAG_STRIP_HIGH');
+    $this->string('role', 'FILTER_FLAG_STRIP_HIGH');
 
     //User Id
-    Sanitization::integer($request, 'user_id');
+    $this->integer('user_id');
+
+    //Avatar
+    $this->image('avatar', 'avatars');
 
     //Return sanitized request params
-    return $request;
+    return $this->request;
   }
 }

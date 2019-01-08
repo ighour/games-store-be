@@ -50,6 +50,16 @@ class User extends Validation {
       $this->checkString('role');
       $this->checkIn('role', ['admin']);
     }
+
+    //Avatar (Sanitized as String, false -> remove)
+    $avatar = $this->isPresent('avatar');
+    if($avatar){
+      $isBool = $this->checkBoolean('avatar');
+      if(!$isBool){
+        $this->checkString('avatar');
+        $this->checkImageDimension('avatar', 'avatars', 100, 100);
+      }
+    }
   }
 
   /**
@@ -89,6 +99,16 @@ class User extends Validation {
     if($role){
       $this->checkString('role');
       $this->checkIn('role', ['admin']);
+    }
+
+    //Avatar (Sanitized as String, false -> remove)
+    $avatar = $this->isPresent('avatar');
+    if($avatar){
+      $isBool = $this->checkBoolean('avatar');
+      if(!$isBool){
+        $this->checkString('avatar');
+        $this->checkImageDimension('avatar', 'avatars', 100, 100);
+      }
     }
   }
 }

@@ -56,15 +56,6 @@ abstract class Controller {
   ];
 
   /**
-   * Constructor
-   */
-  public function __construct($request = null)
-  {
-    if(!is_null($request))
-      $this->request = $request;
-  }
-
-  /**
    * Get auth id
    */
   protected function getAuthId()

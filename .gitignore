@@ -1,2 +1,8 @@
 .env
 vendor
+public/storage/avatars/*.png
+public/storage/avatars/*.jpeg
+public/storage/avatars/*.jpg
+public/storage/games/*.png
+public/storage/games/*.jpeg
+public/storage/games/*.jpg

@@ -2,64 +2,107 @@
 
 namespace App\Sanitization;
 
+use \App\Libs\Helpers;
+
 abstract class Sanitization {
+  /**
+   * Request
+   */
+  protected $request;
+
+  /**
+   * Constructor
+   */
+  public function __construct($request)
+  {
+    $this->request = $request;
+  }
+
   /**
    * Sanitize String (FILTER_SANITIZE_STRING)
    */
-  protected static function string($request, $param, $flags=null)
+  protected function string($param, $flags=null)
   {
-    if(isset($request[$param])){
-      $result = filter_var($request[$param], FILTER_SANITIZE_STRING, ['flags' => $flags]);
-      $request[$param] = $result;
+    if(isset($this->request[$param])){
+      $result = filter_var($this->request[$param], FILTER_SANITIZE_STRING, ['flags' => $flags]);
+      $this->request[$param] = $result;
     }
   }
 
   /**
    * Sanitize Email (FILTER_SANITIZE_EMAIL)
    */
-  protected static function email($request, $param)
+  protected function email($param)
   {
-    if(isset($request[$param])){
-      $result = filter_var($request[$param], FILTER_SANITIZE_EMAIL);
-      $request[$param] = $result;
+    if(isset($this->request[$param])){
+      $result = filter_var($this->request[$param], FILTER_SANITIZE_EMAIL);
+      $this->request[$param] = $result;
     }
   }
 
   /**
    * Sanitize URL (FILTER_SANITIZE_URL)
    */
-  protected static function URL($request, $param)
+  protected function URL($param)
   {
-    if(isset($request[$param])){
-      $result = filter_var($request[$param], FILTER_SANITIZE_URL);
-      $request[$param] = $result;
+    if(isset($this->request[$param])){
+      $result = filter_var($this->request[$param], FILTER_SANITIZE_URL);
+      $this->request[$param] = $result;
     }
   }
 
   /**
    * Sanitize Integer (FILTER_SANITIZE_NUMBER_INT)
    */
-  protected static function integer($request, $param)
+  protected function integer($param)
   {
-    if(isset($request[$param])){
-      $result = filter_var($request[$param], FILTER_SANITIZE_NUMBER_INT);
-      $request[$param] = $result;
+    if(isset($this->request[$param])){
+      $result = filter_var($this->request[$param], FILTER_SANITIZE_NUMBER_INT);
+      $this->request[$param] = $result;
     }
   }
 
   /**
    * Sanitize Double (FILTER_SANITIZE_NUMBER_FLOAT)
    */
-  protected static function double($request, $param)
+  protected function double($param)
   {
-    if(isset($request[$param])){
-      $result = filter_var($request[$param], FILTER_SANITIZE_NUMBER_FLOAT, ['flags' => FILTER_FLAG_ALLOW_FRACTION]);
-      $request[$param] = $result;
+    if(isset($this->request[$param])){
+      $result = filter_var($this->request[$param], FILTER_SANITIZE_NUMBER_FLOAT, ['flags' => FILTER_FLAG_ALLOW_FRACTION]);
+      $this->request[$param] = $result;
+    }
+  }
+
+  /**
+   * Sanitize Images (Get Input, Parse and Return String Reference)
+   */
+  protected function image($param, $to)
+  {
+    try {
+      $imageName = Helpers::storeFile($param, $to);
+
+      //Add to request as image name
+      $this->request[$param] = $imageName;
+    }
+    catch(\Exception $e){
+      if(!isset($this->request[$param]))
+        return;
+        
+      //Get value
+      $result = $this->request[$param];
+
+      //Not Null param -> set false
+      if(!is_null($result)){
+        $this->request[$param] = false;
+      }
+      else{
+        unset($this->request[$param]);
+      }     
     }
   }
 
   /**
    * Sanitize
    */
-  abstract public static function sanitize($request);
+  abstract public function sanitize();
 }

@@ -7,6 +7,7 @@ use \App\Resource\User as Resource;
 use \App\Sanitization\User as Sanitization;
 use \App\Validation\User as Validation;
 use \App\Middleware\Auth as AuthMiddleware;
+use \App\Libs\Helpers;
 
 class User extends Controller {
   /**
@@ -14,8 +15,7 @@ class User extends Controller {
    */
   public function __construct($request)
   {
-    parent::__construct(Sanitization::sanitize($request));
-
+    $this->request = (new Sanitization($request))->sanitize();
     $this->DAO = new DAO();
     $this->resource = new Resource();
     $this->validation = new Validation($this->request);
@@ -50,7 +50,7 @@ class User extends Controller {
       $this->withPayload(['errors' => $errors])->respondValidationError();
 
     //Params
-    $params = $this->params(['username', 'email', 'password', 'role']);
+    $params = $this->params(['username', 'email', 'password', 'role', 'avatar']);
 
     //Hash password before storing in DB
     $hash = password_hash($params['password'], PASSWORD_BCRYPT);
@@ -102,7 +102,10 @@ class User extends Controller {
       $this->withPayload(['errors' => $errors])->respondValidationError();
       
     //Params
-    $params = $this->params(['username', 'email', 'password', 'role']);
+    $params = $this->params(['username', 'email', 'password', 'role', 'avatar']);
+
+    //Auth Middleware
+    AuthMiddleware::run($this);
 
     //Get id
     $id = $this->request['user_id'];
@@ -111,6 +114,15 @@ class User extends Controller {
     $userId = $this->getAuthId();
     if($userId !== $id)
       AuthMiddleware::run($this, ['admin']);
+
+    //Remove old avatar if is false (delete) or updated (string)
+    if(isset($params['avatar'])){
+      $user = $this->DAO->fetchById($userId);
+      Helpers::deleteFile('avatars', $user->avatar);
+
+      if($params['avatar'] == false)
+        $params['avatar'] = null;
+    }
 
     //Update
     $element = $this->DAO->update($params, $id);
@@ -136,6 +148,10 @@ class User extends Controller {
 
     //Get id
     $id = $this->request['user_id'];
+
+    //Remove old avatar if is false (delete) or updated (string)
+    $user = $this->DAO->fetchById($userId);
+    Helpers::deleteFile('avatars', $user->avatar);
 
     //Delete
     $element = $this->DAO->delete($id);

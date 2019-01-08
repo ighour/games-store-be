@@ -157,6 +157,14 @@ abstract class Validation {
   }
 
   /**
+   * Check: Boolean
+   */
+  protected function checkBoolean($param)
+  {
+    return is_bool($this->request[$param]);
+  }
+
+  /**
    * Check: Between
    */
   protected function checkBetween($param, $min, $max)
@@ -211,5 +219,26 @@ abstract class Validation {
   {
     if(!in_array($this->request[$param], $valid))
       $this->setError($param, "Invalid option.");
+  }
+
+  /**
+   * Check: Image Dimensions
+   */
+  protected function checkImageDimension($param, $folder, $width, $height)
+  {
+    $name = $this->request[$param];
+    $path = __PUBLIC_PATH__ . '/storage' . '/' . $folder . '/' . $name;
+
+    if(!file_exists($path))
+      $this->setError($param, "Error saving image.");
+
+    else {
+      $fileDim = getimagesize($path);
+
+      if($fileDim[0] != $width || $fileDim[1] != $height){
+        $this->setError($param, "Image dimension need to be {$width}px x {$height}px");
+        Helpers::deleteFile($folder, $name);
+      }
+    }
   }
 }

@@ -19,8 +19,7 @@ class Auth extends Controller {
    */
   public function __construct($request)
   {
-    parent::__construct(Sanitization::sanitize($request));
-
+    $this->request = (new Sanitization($request))->sanitize();
     $this->DAO = new DAO();
     $this->resource = new Resource();
     $this->validation = new Validation($this->request);

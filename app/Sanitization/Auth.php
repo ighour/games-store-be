@@ -2,22 +2,22 @@
 
 namespace App\Sanitization;
 
-abstract class Auth extends Sanitization {
+class Auth extends Sanitization {
   /**
    * Sanitize
    */
-  public static function sanitize($request)
+  public function sanitize()
   {
     //Email
-    Sanitization::email($request, 'email');
+    $this->email('email');
 
     //Callback
-    Sanitization::URL($request, 'callback');
+    $this->URL('callback');
 
     //Token
-    Sanitization::string($request, 'token');
+    $this->string('token');
 
     //Return sanitized request params
-    return $request;
+    return $this->request;
   }
 }

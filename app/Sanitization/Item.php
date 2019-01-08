@@ -2,31 +2,31 @@
 
 namespace App\Sanitization;
 
-abstract class Item extends Sanitization {
+class Item extends Sanitization {
   /**
    * Sanitize
    */
-  public static function sanitize($request)
+  public function sanitize()
   {
     //Name
-    Sanitization::string($request, 'name');
+    $this->string('name');
 
     //Type
-    Sanitization::string($request, 'type');
+    $this->string('type');
 
     //Description
-    Sanitization::string($request, 'description');
+    $this->string('description');
 
     //Amount
-    Sanitization::double($request, 'amount');
+    $this->double('amount');
 
     //Item Category Id
-    Sanitization::integer($request, 'item_category_id');
+    $this->integer('item_category_id');
 
     //User Id
-    Sanitization::integer($request, 'user_id');
+    $this->integer('user_id');
 
     //Return sanitized request params
-    return $request;
+    return $this->request;
   }
 }
