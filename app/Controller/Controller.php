@@ -102,7 +102,7 @@ abstract class Controller {
   {
     $element = $this->DAO->fetchById($id);
 
-    if(!$element || !isset($element->$relation) || $element->$relation != $element->id)
+    if(!$element || !isset($element->$relation) || $element->$relation != $this->getAuthId())
       return false;
 
     return true;
