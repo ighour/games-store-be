@@ -48,12 +48,24 @@ class FrontController extends Controller {
    * Redirect to proper controller
    */
   public function run(){
-    //Run CORS
-    CORS::run();
-
     $urlSegments = explode("?", $this->url);
     $urlPath = explode("/", $urlSegments[0]);
     $method = $_SERVER['REQUEST_METHOD'];
+
+    //Is Image
+    if(isset($urlPath[1]) && $urlPath[1] == 'storage' && isset($urlPath[2]) && isset($urlPath[3]))
+      Helpers::retrieveFile($urlPath[2], $urlPath[3]);
+
+    //Run CORS
+    CORS::run();
+
+    //Original Params
+    $params = $_REQUEST;
+
+    //Check for virtual PUT, PATCH, DELETE
+    if($method == 'POST' && isset($params['_method']) && ($params['_method'] == 'PUT' || $params['_method'] == 'PATCH' || $params['_method'] == 'DELETE')){
+      $method = $params['_method'];
+    }
 
     for($i = 0; $i < sizeof($this->routes); $i++){
       $route = $this->routes[$i];
@@ -109,7 +121,7 @@ class FrontController extends Controller {
         continue;
 
       //Set params
-      $params = array_merge($this->getParams(), $pathParams);
+      $params = array_merge($params, $pathParams);
 
       //Redirect to controller
       $className = "App\\Controller\\" . $route['controller'];
@@ -122,31 +134,6 @@ class FrontController extends Controller {
     //Invalid route
     http_response_code(404);
     $this->respondNotFound();
-  }
-
-  /**
-   * Get request parameters
-   */
-  private function getParams()
-  {
-    $method = $_SERVER['REQUEST_METHOD'];
-
-    //GET
-    if($method == "GET")
-      return $_GET;
-
-    //POST (application/x-www-form-urlencoded)
-    else if($method == "POST" && sizeof($_POST) > 0){
-      return $_POST;
-    }
-
-    //OTHERS
-    $contents = file_get_contents("php://input");
-
-    if(strlen($contents) == 0 || $contents == null)
-      return [];
-
-    return json_decode(urldecode($contents), true);    
   }
 
   /**
