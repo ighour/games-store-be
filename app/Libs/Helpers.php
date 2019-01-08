@@ -122,5 +122,14 @@ abstract class Helpers {
                 unlink($path);
             }
         }
+
+        //Users avatars
+        else if($folder == 'games'){
+            $path = $root . '/games' . '/' . $name;
+
+            if(file_exists($path)){
+                unlink($path);
+            }
+        }
     }
 }
