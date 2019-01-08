@@ -62,7 +62,7 @@ class FrontController extends Controller {
     CORS::run();
 
     //Original Params
-    $params = $_REQUEST;
+    $params = $this->getParams();
 
     //Check for virtual PUT, PATCH, DELETE
     if($method == 'POST' && isset($params['_method']) && ($params['_method'] == 'PUT' || $params['_method'] == 'PATCH' || $params['_method'] == 'DELETE')){
@@ -136,6 +136,24 @@ class FrontController extends Controller {
     //Invalid route
     http_response_code(404);
     $this->respondNotFound();
+  }
+
+  /**
+   * Get PARAMS
+   */
+  private function getParams()
+  {
+    //Common
+    $params = $_REQUEST;
+
+    //Maybe www encoded
+    if(empty($params)){
+      $contents = file_get_contents("php://input");
+      $result = json_decode($contents, true);
+      $params = is_null($result) ? [] : $result;
+    }
+
+    return $params;
   }
 
   /**
