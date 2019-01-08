@@ -33,7 +33,7 @@ abstract class Helpers {
         $baseDir = __BASE_PATH__ . '/../public/storage';
 
         //Allowed Extensions
-        $extensions = ['jpeg', 'jpg', 'png'];
+        $extensions = ['png'];
 
         //Check parameter
         if(!isset($_FILES[$paramName]))
@@ -49,7 +49,7 @@ abstract class Helpers {
 
         //Check extension
         if(!in_array($extension, $extensions))
-            throw new \Exception("Extension {$extension} is not supported.");
+            throw new \Exception("Only png extension is supported.");
 
         //Check size
         if($size > 1000000)
@@ -76,23 +76,32 @@ abstract class Helpers {
      */
     public static function retrieveFile($folder, $name)
     {
-        $root = __PUBLIC_PATH__ . '/storage';
+        $root = __PUBLIC_PATH__;
+
+        //Default images
+        if($folder == 'img')
+            Helpers::returnFile($root . '/img' . '/' . $name);
 
         //Users avatars
-        if($folder == 'avatars'){
-            $path = $root . '/avatars' . '/' . $name;
+        else if($folder == 'avatars')
+            Helpers::returnFile($root . '/storage/avatars' . '/' . $name);
+    }
 
-            if(file_exists($path)){
-                $file = fopen($path, 'rb');
+    /**
+     * Generate response for File
+     */
+    public static function returnFile($path)
+    {
+        if(file_exists($path)){
+            $file = fopen($path, 'rb');
 
-                header($_SERVER["SERVER_PROTOCOL"] . " 200 OK");
-                header("Content-Type: image/png");
-                header("Content-Length:".filesize($path));
+            header($_SERVER["SERVER_PROTOCOL"] . " 200 OK");
+            header("Content-Type: image/png");
+            header("Content-Length:".filesize($path));
 
-                fpassthru($file);
-                die();
-            }
-        }
+            fpassthru($file);
+            die();
+        }  
     }
 
     /**

@@ -55,6 +55,8 @@ class FrontController extends Controller {
     //Is Image
     if(isset($urlPath[1]) && $urlPath[1] == 'storage' && isset($urlPath[2]) && isset($urlPath[3]))
       Helpers::retrieveFile($urlPath[2], $urlPath[3]);
+    else if(isset($urlPath[1]) && $urlPath[1] == 'img' && isset($urlPath[2]))
+      Helpers::retrieveFile($urlPath[1], $urlPath[2]);
 
     //Run CORS
     CORS::run();
