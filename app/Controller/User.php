@@ -72,10 +72,14 @@ class User extends Controller {
   public function show()
   {
     //Auth Middleware
-    AuthMiddleware::run($this, ['admin']);
+    AuthMiddleware::run($this);
 
     //Get id
     $id = $this->request['user_id'];
+
+    //Check is the user
+    if(!$this->isAuth($id))
+      $this->respondForbidden();
 
     //Fetch element
     $element = $this->DAO->fetchById($id);
