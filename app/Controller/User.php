@@ -117,7 +117,7 @@ class User extends Controller {
 
     //Remove old avatar if is false (delete) or updated (string)
     if(isset($params['avatar'])){
-      $user = $this->DAO->fetchById($userId);
+      $user = $this->DAO->fetchById($id);
       Helpers::deleteFile('avatars', $user->avatar);
 
       if($params['avatar'] == false)
@@ -150,7 +150,7 @@ class User extends Controller {
     $id = $this->request['user_id'];
 
     //Remove old avatar if is false (delete) or updated (string)
-    $user = $this->DAO->fetchById($userId);
+    $user = $this->DAO->fetchById($id);
     Helpers::deleteFile('avatars', $user->avatar);
 
     //Delete
