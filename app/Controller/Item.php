@@ -105,7 +105,7 @@ class Item extends Controller {
       $this->withPayload(['errors' => $errors])->respondValidationError();
       
     //Params
-    $params = $this->params(['name', 'type', 'description', 'amount', 'item_category_id', 'image']);
+    $params = $this->params(['name', 'type', 'description', 'amount', 'item_category_id', 'image', 'remove_image']);
 
     //Get id
     $id = $this->request['item_id'];
@@ -122,6 +122,17 @@ class Item extends Controller {
       if($params['image'] == false)
         $params['image'] = null;
     }
+    if(isset($params['remove_image']) && $params['remove_image'] == true){
+      $element = $this->DAO->fetchById($id);
+      Helpers::deleteFile('games', $element->image);
+
+      if(isset($params['image']) && $params['image'] != false)
+        Helpers::deleteFile('games', $params['image']);
+
+      $params['image'] = null;
+    }
+    if(isset($params['remove_image']))
+      unset($params['remove_image']);
 
     //Update
     $element = $this->DAO->update($params, $id);

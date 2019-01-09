@@ -19,6 +19,17 @@ abstract class Sanitization {
   }
 
   /**
+   * Sanitize Boolean (FILTER_VALIDATE_BOOLEAN)
+   */
+  protected function boolean($param)
+  {
+    if(isset($this->request[$param])){
+      $result = filter_var($this->request[$param], FILTER_VALIDATE_BOOLEAN);
+      $this->request[$param] = $result;
+    }
+  }
+
+  /**
    * Sanitize String (FILTER_SANITIZE_STRING)
    */
   protected function string($param, $flags=null)

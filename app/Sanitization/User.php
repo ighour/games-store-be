@@ -23,6 +23,9 @@ class User extends Sanitization {
     //Avatar
     $this->image('avatar', 'avatars');
 
+    //Remove Avatar
+    $this->boolean('remove_avatar');
+
     //Return sanitized request params
     return $this->request;
   }

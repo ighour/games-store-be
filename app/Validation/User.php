@@ -110,5 +110,11 @@ class User extends Validation {
         $this->checkImageDimension('avatar', 'avatars', 100, 100);
       }
     }
+
+    //Remove Avatar (Sanitized as Boolean)
+    $remove_avatar = $this->isPresent('remove_avatar');
+    if($remove_avatar){
+      $this->checkBoolean('remove_avatar');
+    }
   }
 }

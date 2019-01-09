@@ -123,5 +123,11 @@ class Item extends Validation {
         $this->checkImageDimension('image', 'games', 300, 200);
       }
     }
+
+    //Remove Image (Sanitized as Boolean)
+    $remove_image = $this->isPresent('remove_image');
+    if($remove_image){
+      $this->checkBoolean('remove_image');
+    }
   }
 }

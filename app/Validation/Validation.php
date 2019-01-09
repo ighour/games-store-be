@@ -106,6 +106,15 @@ abstract class Validation {
   }
 
   /**
+   * Check: Boolean
+   */
+  protected function checkBoolean($param)
+  {
+    if(!is_bool($this->request[$param]))
+      $this->setError($param, "Need to be boolean.");
+  }
+
+  /**
    * Check: String
    */
   protected function checkString($param)

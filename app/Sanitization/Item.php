@@ -29,6 +29,9 @@ class Item extends Sanitization {
     //Image
     $this->image('image', 'games');
 
+    //Remove Image
+    $this->boolean('remove_image');
+
     //Return sanitized request params
     return $this->request;
   }

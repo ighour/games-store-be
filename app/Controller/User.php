@@ -102,8 +102,8 @@ class User extends Controller {
       $this->withPayload(['errors' => $errors])->respondValidationError();
       
     //Params
-    $params = $this->params(['username', 'email', 'password', 'role', 'avatar']);
-
+    $params = $this->params(['username', 'email', 'password', 'role', 'avatar', 'remove_avatar']);
+    
     //Auth Middleware
     AuthMiddleware::run($this);
 
@@ -112,7 +112,7 @@ class User extends Controller {
 
     //Auth Middleware (if is not himself)
     $userId = $this->getAuthId();
-    if($userId !== $id)
+    if($userId != $id)
       AuthMiddleware::run($this, ['admin']);
 
     //Remove old avatar if is false (delete) or updated (string)
@@ -122,6 +122,23 @@ class User extends Controller {
 
       if($params['avatar'] == false)
         $params['avatar'] = null;
+    }
+    if(isset($params['remove_avatar']) && $params['remove_avatar'] == true){
+      $user = $this->DAO->fetchById($id);
+      Helpers::deleteFile('avatars', $user->avatar);
+
+      if(isset($params['avatar']) && $params['avatar'] != false)
+        Helpers::deleteFile('avatars', $params['avatar']);
+
+      $params['avatar'] = null;
+    }
+    if(isset($params['remove_avatar']))
+      unset($params['remove_avatar']);
+
+    //Hash password before storing in DB
+    if(isset($params['password'])){
+      $hash = password_hash($params['password'], PASSWORD_BCRYPT);
+      $params['password'] = $hash;
     }
 
     //Update
