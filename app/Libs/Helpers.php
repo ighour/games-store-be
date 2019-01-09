@@ -21,6 +21,9 @@ abstract class Helpers {
     {
         $exploded = explode(".", $number);
 
+        if(!isset($exploded[1]))
+            return 0;
+
         return strlen($exploded[1]);
     }
 
