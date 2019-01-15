@@ -1,10 +1,10 @@
 -- User (password = secret)
-INSERT INTO users (username, email, password, role, avatar) VALUES ('admin', 'admin@gmail.com', '$2y$10$4khdTZNpyfM6zKvf/OFTCuH7nCqCQbwrUcW0AAhSJCJHhjAtDDtF.', 'admin', 'user1.png');
-INSERT INTO users (username, email, password, avatar) VALUES ('user1', 'user1@gmail.com', '$2y$10$4khdTZNpyfM6zKvf/OFTCuH7nCqCQbwrUcW0AAhSJCJHhjAtDDtF.', 'user2.png');
-INSERT INTO users (username, email, password, avatar) VALUES ('user2', 'user2@gmail.com', '$2y$10$4khdTZNpyfM6zKvf/OFTCuH7nCqCQbwrUcW0AAhSJCJHhjAtDDtF.', 'user3.png');
-INSERT INTO users (username, email, password, avatar) VALUES ('user3', 'user3@gmail.com', '$2y$10$4khdTZNpyfM6zKvf/OFTCuH7nCqCQbwrUcW0AAhSJCJHhjAtDDtF.', NULL);
-INSERT INTO users (username, email, password, avatar) VALUES ('user4', 'user4@gmail.com', '$2y$10$4khdTZNpyfM6zKvf/OFTCuH7nCqCQbwrUcW0AAhSJCJHhjAtDDtF.', 'user4.png');
-INSERT INTO users (username, email, password, avatar) VALUES ('user5', 'user5@gmail.com', '$2y$10$4khdTZNpyfM6zKvf/OFTCuH7nCqCQbwrUcW0AAhSJCJHhjAtDDtF.', NULL);
+INSERT INTO users (username, email, password, role, avatar) VALUES ('admin', 'admin@gmail.com', '$2y$10$nYXwjAI78pKAIL66nAgFt.ZfCAW1osqu8K0qCYX4mrNfR519xaq1m', 'admin', 'user1.png');
+INSERT INTO users (username, email, password, avatar) VALUES ('user1', 'user1@gmail.com', '$2y$10$nYXwjAI78pKAIL66nAgFt.ZfCAW1osqu8K0qCYX4mrNfR519xaq1m', 'user2.png');
+INSERT INTO users (username, email, password, avatar) VALUES ('user2', 'user2@gmail.com', '$2y$10$nYXwjAI78pKAIL66nAgFt.ZfCAW1osqu8K0qCYX4mrNfR519xaq1m', 'user3.png');
+INSERT INTO users (username, email, password, avatar) VALUES ('user3', 'user3@gmail.com', '$2y$10$nYXwjAI78pKAIL66nAgFt.ZfCAW1osqu8K0qCYX4mrNfR519xaq1m', NULL);
+INSERT INTO users (username, email, password, avatar) VALUES ('user4', 'user4@gmail.com', '$2y$10$nYXwjAI78pKAIL66nAgFt.ZfCAW1osqu8K0qCYX4mrNfR519xaq1m', 'user4.png');
+INSERT INTO users (username, email, password, avatar) VALUES ('user5', 'user5@gmail.com', '$2y$10$nYXwjAI78pKAIL66nAgFt.ZfCAW1osqu8K0qCYX4mrNfR519xaq1m', NULL);
 
 -- Item Category
 INSERT INTO item_categories (name) VALUES ('PS4');
