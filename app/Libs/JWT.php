@@ -37,7 +37,7 @@ abstract class JWT {
       $decoded = FirebaseJWT::decode($jwt, getenv("JWT_KEY"), ['HS256']);
     }
     catch(Exception $e){
-      throw new Exception("Error parsing JWT. " . $e->message . " " . $e->code);
+      throw new \Exception("Error parsing JWT.", $e->getCode(), $e);
     }
 
     return $decoded;

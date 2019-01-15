@@ -5,6 +5,7 @@ namespace App\DAO;
 use Exception;
 use App\Config\DatabaseConnection;
 use PDO;
+use App\Exception\DatabaseException;
 
 abstract class DAO {
   /**
@@ -48,8 +49,7 @@ abstract class DAO {
       return $this;
     }
     catch(Exception $exception){
-      throw new Exception("Could not connect to DB.");
-      die();
+      throw new DatabaseException("Could not connect to DB.", $exception->getCode(), $exception);
     }
   }
 

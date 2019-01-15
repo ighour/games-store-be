@@ -2,6 +2,8 @@
 
 namespace App\Libs;
 
+use App\Exception\FileUploadException;
+
 abstract class Helpers {
 
     /**
@@ -40,7 +42,7 @@ abstract class Helpers {
 
         //Check parameter
         if(!isset($_FILES[$paramName]))
-            throw new \Exception("File not uploaded.");
+            throw new FileUploadException("File not uploaded.");
 
         //Get file info
         $name = $_FILES[$paramName]['name'];
@@ -52,11 +54,11 @@ abstract class Helpers {
 
         //Check extension
         if(!in_array($extension, $extensions))
-            throw new \Exception("Only png extension is supported.");
+            throw new FileUploadException("Only png extension is supported.");
 
         //Check size
         if($size > 1000000)
-            throw new \Exception("Max file size is 1MB.");
+            throw new FileUploadException("Max upload file size is 1MB.");
 
         //Set save info
         $saveName = hash("sha256", microtime(true) . $name) . '.' . $extension;
@@ -64,11 +66,16 @@ abstract class Helpers {
         $savePath = $saveDir . '/' . basename($saveName);
 
         //Move file
-        $uploaded = move_uploaded_file($tempName, $savePath);
-
+        try {
+            $uploaded = move_uploaded_file($tempName, $savePath);
+        }
+        catch(\Exception $e){
+            throw new FileUploadException("Error saving uploaded file.");
+        }
+        
         //Error moving
         if(!$uploaded)
-            throw new \Exception ("Error uploading file.");
+            throw new FileUploadException("Error saving uploaded file.");
 
         //All OK
         return $saveName;

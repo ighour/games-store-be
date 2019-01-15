@@ -14,7 +14,7 @@ $dotenv = new Dotenv();
 $dotenv->load(dirname(__BASE_PATH__) . '/.env');
 
 //Php confs
-ini_set('display_errors', true);
+ini_set("display_errors", false); 
 error_reporting(E_ALL);
 date_default_timezone_set('Europe/Lisbon');
 

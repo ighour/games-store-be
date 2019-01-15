@@ -5,6 +5,8 @@ namespace App;
 use \App\Controller\Controller;
 use \App\Libs\Helpers;
 use \App\Middleware\CORS;
+use \App\Exception\DatabaseException;
+use \App\Exception\FileUploadException;
 
 class FrontController extends Controller {
   /**
@@ -46,8 +48,24 @@ class FrontController extends Controller {
 
   /**
    * Redirect to proper controller
+   * Catch exceptions to generate response
    */
   public function run(){
+    try {
+      $this->runApp();
+    }
+    catch(DatabaseException $e){
+      $this->respondInternalServerError("Could not connect to DB.");
+    }
+    catch(FileUploadException $e){
+      $this->respondInternalServerError($e->message);
+    }
+    catch(\Exception $e){
+      $this->respondInternalServerError("There was an error. Try again later.");
+    }
+  }
+
+  private function runApp(){
     $urlSegments = explode("?", $this->url);
     $urlPath = explode("/", $urlSegments[0]);
     $method = $_SERVER['REQUEST_METHOD'];

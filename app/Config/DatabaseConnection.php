@@ -24,13 +24,9 @@ class DatabaseConnection {
     try {
       $this->connection = new PDO($db, $db_user, $db_password);
     }
-    catch(PDOException $exception){
-      echo "Connection error: " . $exception->getMessage() . PHP_EOL;
-      throw $exception;
-    }
     catch(Exception $exception){
-      echo "Server error: " . $exception->getMessage() . PHP_EOL;
       throw $exception;
+      die();
     }
 
     return $this->connection;
