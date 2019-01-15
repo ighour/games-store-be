@@ -56,10 +56,15 @@ class Auth extends Controller {
       $this->respondForbidden("You need to verify your email first!");
 
     //Generate Token
-    $jwt = JWT::create($resource);
+    $result = JWT::create($resource);
+    $jwt = $result['jwt'];
+    $time = $result['iat'];
+
+    //Set last token info on DB
+    $this->DAO->update(['last_token' => $time], $user->id);
 
     //Response
-    $this->withPayload(['token' => $jwt, 'u' => $resource])->respondOk("Logged in.");
+    $this->withPayload(['token' => $jwt])->respondOk("Logged in.");
   }
 
   /**

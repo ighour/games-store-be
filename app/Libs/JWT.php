@@ -12,10 +12,12 @@ abstract class JWT {
   {
     $url = $_SERVER['REQUEST_SCHEME'] . '://' . parse_url($_SERVER['SERVER_NAME'])['path'];  //Get issuer by Scheme + Hostname
 
+    $time = date_timestamp_get(date_create());
+
     $token = [
       'iss' =>  $url, //Issuer
       'aud' => $url, //Audience
-      'iat' => date_timestamp_get(date_create()), //Issued at
+      'iat' => $time, //Issued at
       'nbf' => 1546634169, //Not before (2019-01-04)
       'exp' => getenv('JWT_EXPIRE') + 1546634169, //Expires in (ms)
       'pay' => [  //Payload
@@ -26,7 +28,10 @@ abstract class JWT {
       ]
     ];
 
-    return FirebaseJWT::encode($token, getenv('JWT_KEY'));
+    return [
+      'jwt' => FirebaseJWT::encode($token, getenv('JWT_KEY')),
+      'iat' => $time
+    ];
   }
 
   /**

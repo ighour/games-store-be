@@ -10,6 +10,7 @@ CREATE TABLE users (
   role varchar(255),
   avatar varchar(255) DEFAULT NULL,
   confirmed text DEFAULT NULL,
+  last_token varchar(255) DEFAULT NULL,
   PRIMARY KEY (id)
 );
 

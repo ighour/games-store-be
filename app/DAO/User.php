@@ -28,4 +28,11 @@ class User extends DAO {
   public function fetchByConfirmed($confirmed){
     return $this->fetchByWhere(['confirmed' => $confirmed], 'confirmed = :confirmed');
   }
+
+  /**
+   * Fetch user by last token
+   */
+  public function tokenIsValid($id, $time){
+    return $this->fetchByWhere(['id' => $id, 'last_token' => $time], 'id = :id AND last_token = :last_token');
+  }
 }

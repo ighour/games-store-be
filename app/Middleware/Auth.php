@@ -4,6 +4,7 @@ namespace App\Middleware;
 
 use \App\Libs\JWT;
 use \App\DAO\TokenBlacklist as DAO;
+use \App\DAO\User as UserDAO;
 
 abstract class Auth {
   /**
@@ -45,6 +46,13 @@ abstract class Auth {
       if(!in_array($userRole, $roles))
         $state->respondForbidden("INVALID_TOKEN_ACCESS");
     }
+
+    //Check is the last emitted token
+    $userDAO = new UserDAO();
+    $result = $userDAO->tokenIsValid($decodedJWT->pay->id, $decodedJWT->iat);
+
+    if(is_null($result) || $result == false)
+      $state->respondForbidden("INVALID_TOKEN");
 
     //Save JWT
     $state->jwt = [
