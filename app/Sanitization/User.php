@@ -26,6 +26,9 @@ class User extends Sanitization {
     //Remove Avatar
     $this->boolean('remove_avatar');
 
+    //Callback
+    $this->URL('callback');
+
     //Return sanitized request params
     return $this->request;
   }

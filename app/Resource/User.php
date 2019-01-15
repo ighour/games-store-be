@@ -10,7 +10,8 @@ class User extends Resource {
       'username' => $user->username,
       'email' => $user->email,
       'role' => is_null($user->role) ? '_default' : $user->role,
-      'avatar' => is_null($user->avatar) || empty($user->avatar) ? null : 'storage/avatars/' . $user->avatar
+      'avatar' => is_null($user->avatar) || empty($user->avatar) ? null : 'storage/avatars/' . $user->avatar,
+      'confirmed' => is_null($user->confirmed) || empty($user->confirmed) ? true : false
     ];
   }
 }

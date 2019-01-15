@@ -60,6 +60,12 @@ class User extends Validation {
         $this->checkImageDimension('avatar', 'avatars', 100, 100);
       }
     }
+
+    //Callback URL
+    $callback = $this->checkRequired('callback');
+    if($callback){
+      $this->checkURL('callback');
+    }
   }
 
   /**

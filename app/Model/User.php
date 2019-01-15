@@ -9,4 +9,5 @@ class User extends Model {
   public $password;
   public $role;
   public $avatar;
+  public $confirmed;
 }

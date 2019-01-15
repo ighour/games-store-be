@@ -21,4 +21,11 @@ class User extends DAO {
   public function fetchByEmail($email){
     return $this->fetchByWhere(['email' => $email], 'email = :email');
   }
+
+  /**
+   * Fetch user by confirmed
+   */
+  public function fetchByConfirmed($confirmed){
+    return $this->fetchByWhere(['confirmed' => $confirmed], 'confirmed = :confirmed');
+  }
 }

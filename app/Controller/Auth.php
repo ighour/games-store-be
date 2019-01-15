@@ -51,11 +51,15 @@ class Auth extends Controller {
     //Set resource
     $resource = $this->resource->element($user);
 
+    //Check is verified
+    if($resource['confirmed'] != true)
+      $this->respondForbidden("You need to verify your email first!");
+
     //Generate Token
     $jwt = JWT::create($resource);
 
     //Response
-    $this->withPayload(['token' => $jwt])->respondOk("Logged in.");
+    $this->withPayload(['token' => $jwt, 'u' => $resource])->respondOk("Logged in.");
   }
 
   /**
@@ -151,5 +155,32 @@ class Auth extends Controller {
 
     //Response
     $this->respondOk("Password Reset.");
+  }
+
+  /**
+   * Confirm register (uses token)
+   */
+  public function confirm()
+  {
+    //Validate
+    $this->validation->confirm();
+    if($errors = $this->validation->errors())
+      $this->withPayload(['errors' => $errors])->respondValidationError();
+
+    //Params
+    $params = $this->params(['token']);
+
+    //Check if Token is Valid
+    $user = $this->DAO->fetchByConfirmed($params['token']);
+
+    //Invalid Token
+    if(is_null($user) || !isset($user->id))
+      $this->respondBadRequest("Invalid Confirmation Token.");
+
+    //Set as confirmed
+    $this->DAO->update(['confirmed' => null], $user->id);
+
+    //Response
+    $this->respondOk("User confirmed.");
   }
 }

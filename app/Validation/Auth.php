@@ -52,4 +52,16 @@ class Auth extends Validation {
       $this->checkConfirmed('password');
     }
   }
+
+  /**
+   * Validate Confirm
+   */
+  public function confirm()
+  {
+    //Token
+    $token = $this->checkRequired('token');
+    if($token){
+      $this->checkString('token');
+    }
+  }
 }

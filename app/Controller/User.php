@@ -8,6 +8,7 @@ use \App\Sanitization\User as Sanitization;
 use \App\Validation\User as Validation;
 use \App\Middleware\Auth as AuthMiddleware;
 use \App\Libs\Helpers;
+use \App\Libs\Emails\ConfirmEmail;
 
 class User extends Controller {
   /**
@@ -50,13 +51,27 @@ class User extends Controller {
       $this->withPayload(['errors' => $errors])->respondValidationError();
 
     //Params
-    $params = $this->params(['username', 'email', 'password', 'role', 'avatar']);
+    $params = $this->params(['username', 'email', 'password', 'role', 'avatar', 'callback']);
 
     //Hash password before storing in DB
     $hash = password_hash($params['password'], PASSWORD_BCRYPT);
     $params['password'] = $hash;
 
-    //Create
+    //Generate Token
+    $params['confirmed'] = bin2hex(random_bytes(mt_rand(15,30)));
+
+    //Send Confirm Email
+    try{
+      $email = new ConfirmEmail();
+      $email->sendEmail(['games.store@saw.testing.pt', 'Games Store'], [$params['email'], $params['email']], $params['confirmed'], $params['callback']);
+    }
+    catch(MailerException $e)
+    {
+      return $this->withPayload(['error' => $email->getError()])->respondInternalServerError("EMAIL_SEND_ERROR");
+    }
+
+    //Create inactive user
+    unset($params['callback']);
     $element = $this->DAO->create($params);
 
     //Set resource

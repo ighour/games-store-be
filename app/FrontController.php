@@ -41,6 +41,7 @@ class FrontController extends Controller {
           ->setRoute(['method' => 'POST', 'route' => '/logout', 'controller' => 'Auth', 'action' => 'logout'])
           ->setRoute(['method' => 'POST', 'route' => '/forget', 'controller' => 'Auth', 'action' => 'forget'])
           ->setRoute(['method' => 'POST', 'route' => '/recover', 'controller' => 'Auth', 'action' => 'recover'])
+          ->setRoute(['method' => 'POST', 'route' => '/confirm', 'controller' => 'Auth', 'action' => 'confirm'])
           ->setResourceRoute('users', 'user_id', 'User')
           ->setResourceRoute('item-categories', 'item_category_id', 'ItemCategory')
           ->setResourceRoute('items', 'item_id', 'Item');
@@ -58,7 +59,7 @@ class FrontController extends Controller {
       $this->respondInternalServerError("Could not connect to DB.");
     }
     catch(FileUploadException $e){
-      $this->respondInternalServerError($e->message);
+      $this->respondInternalServerError($e->getMessage());
     }
     catch(\Exception $e){
       $this->respondInternalServerError("There was an error. Try again later.");

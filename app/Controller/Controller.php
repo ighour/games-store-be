@@ -63,7 +63,7 @@ abstract class Controller {
     try {
       $id = $this->jwt['decoded']->pay->id;
     }
-    catch(Exception $e){
+    catch(\Exception $e){
       return null;
     }
 
@@ -78,7 +78,7 @@ abstract class Controller {
     try {
       $jwt = $this->jwt['encoded'];
     }
-    catch(Exception $e){
+    catch(\Exception $e){
       return null;
     }
 
@@ -93,6 +93,24 @@ abstract class Controller {
     $auth = $this->getAuthId();
 
     return !is_null($auth) && $auth == $userId;
+  }
+
+  /**
+   * Provided user is confirmed
+   */
+  protected function isConfirmed()
+  {
+    $jwt = $this->getEncodedJWT();
+
+    if(is_null($jwt))
+      return false;
+
+    try {
+      return $jwt['decoded']->pay->confirmed == true;
+    }
+    catch(\Exception $e){
+      return false;
+    }
   }
 
   /**

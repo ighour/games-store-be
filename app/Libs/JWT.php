@@ -21,7 +21,8 @@ abstract class JWT {
       'pay' => [  //Payload
         'id' => $userResource['id'],
         'username' => $userResource['username'],
-        'role' => $userResource['role']
+        'role' => $userResource['role'],
+        'confirmed' => $userResource['confirmed']
       ]
     ];
 
