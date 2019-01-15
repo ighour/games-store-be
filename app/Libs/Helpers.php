@@ -35,7 +35,7 @@ abstract class Helpers {
     public static function storeFile($paramName, $to)
     {
         //Dir
-        $baseDir = __BASE_PATH__ . '/../public/storage';
+        $baseDir = __STORAGE_PATH__;
 
         //Allowed Extensions
         $extensions = ['png'];
@@ -87,6 +87,7 @@ abstract class Helpers {
     public static function retrieveFile($folder, $name)
     {
         $root = __PUBLIC_PATH__;
+        $storage = __STORAGE_PATH__;
 
         //Default images
         if($folder == 'img')
@@ -94,11 +95,11 @@ abstract class Helpers {
 
         //Users avatars
         else if($folder == 'avatars')
-            Helpers::returnFile($root . '/storage/avatars' . '/' . $name);
+            Helpers::returnFile($storage . '/avatars' . '/' . $name);
 
         //Users avatars
         else if($folder == 'games')
-            Helpers::returnFile($root . '/storage/games' . '/' . $name);
+            Helpers::returnFile($storage . '/games' . '/' . $name);
     }
 
     /**
@@ -126,7 +127,7 @@ abstract class Helpers {
         if(is_null($folder) || is_null($name))
             return;
 
-        $root = __PUBLIC_PATH__ . '/storage';
+        $root = __STORAGE_PATH__;
 
         //Users avatars
         if($folder == 'avatars'){

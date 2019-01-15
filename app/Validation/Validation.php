@@ -236,7 +236,7 @@ abstract class Validation {
   protected function checkImageDimension($param, $folder, $width, $height)
   {
     $name = $this->request[$param];
-    $path = __PUBLIC_PATH__ . '/storage' . '/' . $folder . '/' . $name;
+    $path = __STORAGE_PATH__ . '/' . $folder . '/' . $name;
 
     if(!file_exists($path))
       $this->setError($param, "Error saving image.");
