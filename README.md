@@ -44,10 +44,6 @@ Backend for IPP/ESTG Class "Segurança em Aplicações Web" **[Project](https://
 
 ![Entity Relatinship Diagram](https://gitlab.com/ighour-learn/ipp/saw/backend/uploads/a039c83f8d0fdf7915abfbc79c3d7061/SAW_Backend_ER__1_.png)
 
-* **Components Architecture**
-
-![Components Architecture](https://gitlab.com/ighour-learn/ipp/saw/backend/uploads/bcb0a8880a1c43d7a2d9b6f8bd2e9719/App_Arquitecture__1___1_.png)
-
 ## Authors
 
 * **Célio Ighour** - *Owner* - [Ighour](https://github.com/ighour)
