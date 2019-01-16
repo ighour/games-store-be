@@ -38,6 +38,16 @@ Backend for IPP/ESTG Class "Segurança em Aplicações Web" **[Project](https://
 * **Server Exceptions** - Handle exceptions and return JSON response with friendly and secure HTTP code, message and payload (optional).
 * **CORS** - Explicitly defines allowed origins to make cross-origin resource sharing.
 
+## Modelling
+
+* **Entity Relatinship Diagram**
+
+![Entity Relatinship Diagram](uploads/a039c83f8d0fdf7915abfbc79c3d7061/SAW_Backend_ER__1_.png)
+
+* **Components Architecture**
+
+![Components Architecture](uploads/bcb0a8880a1c43d7a2d9b6f8bd2e9719/App_Arquitecture__1___1_.png)
+
 ## Authors
 
 * **Célio Ighour** - *Owner* - [Ighour](https://github.com/ighour)
