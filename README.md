@@ -1,11 +1,6 @@
 # Games Store (Backend)
 
-Backend project for IPP/ESTG Class "Segurança em Aplicações Web"
-
-## Objectives
-
-* The app was created to maintain a list of games sold by users.
-* The main purpose is to avoid security problems in application, specially about validation, sanitization, unauthorized access of files and resources, password cracking etc.
+Backend for IPP/ESTG Class "Segurança em Aplicações Web" **[Project](https://gitlab.com/ighour-learn/ipp/saw/trabalho)**.
 
 ## Built With
 
