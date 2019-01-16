@@ -28,6 +28,7 @@ Backend project for IPP/ESTG Class "Segurança em Aplicações Web"
 * **JSON Web Token** - Handle backend and frontend communication.
 * **Middlewares** - Run self-services to application, like Authentication Middleware and CORS Middleware.
 * **Resources** - Defines model transformation before sending in response.
+* **Seeds** - Friendly seeds for testing purpose.
 
 ## Security Artefacts
 
@@ -38,6 +39,7 @@ Backend project for IPP/ESTG Class "Segurança em Aplicações Web"
 * **Registration** - Require email confirmation to avoid spamming user creation.
 * **Passwords** - Require medium to strong passwords on registering and stores it in database using hashing algorithms with salt.
 * **Authentication & Authorization** - Uses a middleware to prevent users (anonymous or authenticated) to manipulate unauthorized resources.
+* **Roles** - Categorize users by role to define which actions are authorized to do in application.
 * **Server Exceptions** - Handle exceptions and return JSON response with friendly and secure HTTP code, message and payload (optional).
 * **CORS** - Explicitly defines allowed origins to make cross-origin resource sharing.
 
