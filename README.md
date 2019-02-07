@@ -46,5 +46,5 @@ Backend for IPP/ESTG Class "Segurança em Aplicações Web" **[Project](https://
 
 ## Authors
 
-* **Célio Ighour** - *Owner* - [Ighour](https://github.com/ighour)
+* **Célio Ighour** - *Owner* - [My Portfolio](https://ighour.talosdev.com) | [Github](https://github.com/ighour) | [Gitlab](https://gitlab.com/ighour) | [LinkedIn](https://www.linkedin.com/in/c%C3%A9lio-ighour-de-castro-rodrigues-0a278a13a/) | [StackOverflow](https://stackexchange.com/users/10652400/ighour)
 * **Simona Alecs** - *Developer*
