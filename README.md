@@ -1,6 +1,8 @@
 # Games Store (Backend)
 
-Backend for IPP/ESTG Class "Segurança em Aplicações Web" **[Project](https://gitlab.com/ighour-learn/ipp/saw/trabalho)**.
+Backend for [IPP/ESTG](https://www.estg.ipp.pt/) class "Segurança em Aplicações Web" (Web Application Security) **[Project](https://github.com/ighour/games-store)**.
+
+The main goal was to build my own MVC framework in PHP while taking some security measures.
 
 ## Built With
 
@@ -9,6 +11,7 @@ Backend for IPP/ESTG Class "Segurança em Aplicações Web" **[Project](https://
 * [Php](http://php.net/) - Programming language.
 * [PHPMailer](https://github.com/PHPMailer/PHPMailer) - Library to send email in PHP.
 * [Php-Jwt](https://github.com/firebase/php-jwt) - Library to encode and decode JSON Web Tokens in PHP.
+* [MySQL](https://www.mysql.com/) - to store the data.
 
 ## Implemented Architecture and Design Patterns
 
@@ -40,11 +43,6 @@ Backend for IPP/ESTG Class "Segurança em Aplicações Web" **[Project](https://
 
 ## Modelling
 
-* **Entity Relatinship Diagram**
+#### **Entity Relationship Diagram**
 
-![Entity Relatinship Diagram](/uploads/a039c83f8d0fdf7915abfbc79c3d7061/SAW_Backend_ER__1_.png)
-
-## Authors
-
-* **Célio Ighour** - *Owner* - [My Portfolio](https://www.ighour.com) | [Github](https://github.com/ighour) | [Gitlab](https://gitlab.com/ighour) | [LinkedIn](https://www.linkedin.com/in/c%C3%A9lio-ighour-de-castro-rodrigues-0a278a13a/) | [StackOverflow](https://stackexchange.com/users/10652400/ighour)
-* **Simona Alecs** - *Developer*
+![Entity Relatinship Diagram](./sample/er.png)
